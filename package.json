@@ -1,0 +1,27 @@
+{
+  "name": "titan_dashboard",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "chart.js": "^4.4.1",
+    "lucide-react": "^1.14.0",
+    "react": "^19.2.6",
+    "react-chartjs-2": "^5.2.0",
+    "react-dom": "^19.2.6"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^4.3.0",
+    "autoprefixer": "^10.5.0",
+    "postcss": "^8.5.14",
+    "tailwindcss": "^3.4.1",
+    "vite": "^5.4.0"
+  }
+}
