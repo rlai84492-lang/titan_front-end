@@ -176,7 +176,7 @@ const NAV = [
   },
 ]
 
-export default function SideBar({ active, setActive, collapsed, setCollapsed }) {
+export default function SideBarOne({ active, setActive, collapsed, setCollapsed }) {
   return (
     <aside
       className="fixed top-0 left-0 h-screen flex flex-col z-40 overflow-hidden bg-white border-r border-[#EEEBE6]"

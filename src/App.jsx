@@ -23,7 +23,7 @@ import {
 
 
 import { fetchDashboard } from './api/dashboardApi.js'
-import SideBar from './Components/SideBar.jsx'
+// import SideBar from './Components/SideBarOne.jsx'
 import TopBarOne from './Components/TopBarOne.jsx'
 import CardOne from './components/CardOne.jsx'
 import MetricCardOne from './Components/MetricCardOne.jsx'
@@ -31,6 +31,7 @@ import ConversationsTableOne from './Components/ConversationsTableOne.jsx'
 import LeadsTableOne from './Components/LeadsTableOne.jsx'
 import FlowFunnelOne from './Components/FlowFunnelOne.jsx'
 import ActivityTimelineOne from './Components/ActivityTimelineOne.jsx'
+import SideBarOne from './Components/SideBarOne.jsx'
 
 // ─────────────────────────────────────────────────────────────
 //  Page titles
@@ -446,7 +447,7 @@ const refresh = useCallback(async () => {
         setCollapsed={setCollapsed}
       /> */}
 
-      <SideBar
+      <SideBarOne 
   active={activePage}
   setActive={setActivePage}
   collapsed={collapsed}
