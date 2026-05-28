@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Sora:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -81,10 +84,7 @@ h1, h2, h3, h4, h5 {
 
 
 
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Sora:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
-@import "tailwindcss";
-
-/* ── CSS variables ───────────────────────── */
+/* ── CSS variables ─────────────────────────
 :root {
   --titan-orange:       #E85A2B;
   --titan-orange-soft:  #FEF0EB;
@@ -101,7 +101,7 @@ h1, h2, h3, h4, h5 {
   --shadow-float:       0 8px 16px rgba(0,0,0,0.06), 0 24px 48px rgba(0,0,0,0.12);
   --radius-card:        16px;
   --radius-lg:          20px;
-}
+} */
 
 * { box-sizing: border-box; }
 

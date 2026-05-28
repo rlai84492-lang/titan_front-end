@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import Sidebar from './components/Sidebar.jsx'
+// import Sidebar from './components/Sidebar.jsx'
 import Topbar  from './components/Topbar.jsx'
 import Card    from './components/Card.jsx'
 import MetricCard from './components/MetricCard.jsx'
@@ -23,6 +23,7 @@ import {
 
 
 import { fetchDashboard } from './api/dashboardApi.js'
+import SideBar from './components/Sidebar.jsx'
 
 // ─────────────────────────────────────────────────────────────
 //  Page titles
@@ -438,7 +439,7 @@ const refresh = useCallback(async () => {
         setCollapsed={setCollapsed}
       /> */}
 
-      <Sidebar
+      <SideBar
   active={activePage}
   setActive={setActivePage}
   collapsed={collapsed}
