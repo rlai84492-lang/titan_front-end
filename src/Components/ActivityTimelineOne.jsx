@@ -126,7 +126,7 @@ function EventRow({ e, i, isNew }) {
   )
 }
 
-export default function ActivityTimeline({ events = [] }) {
+export default function ActivityTimelineOne({ events = [] }) {
   const [liveCount, setLiveCount]     = useState(0)
   const [blinking, setBlinking]       = useState(false)
   const prevLen = useRef(events.length)

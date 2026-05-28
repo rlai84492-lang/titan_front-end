@@ -6,7 +6,7 @@ import React, { useState, useEffect, useCallback } from 'react'
 // import FlowFunnel from './components/FlowFunnel.jsx'
 // import ConversationsTable from './components/ConversationsTable.jsx'
 // import LeadsTableOne         from './components/LeadsTableOne.jsx'
-import ActivityTimeline   from './components/ActivityTimeline.jsx'
+// import ActivityTimeline   from './components/ActivityTimeline.jsx'
 import {
   MessagesChart, StyleChart, PriceChart,
   CampaignChart, CollectionChart,
@@ -30,6 +30,7 @@ import MetricCardOne from './Components/MetricCardOne.jsx'
 import ConversationsTableOne from './Components/ConversationsTableOne.jsx'
 import LeadsTableOne from './Components/LeadsTableOne.jsx'
 import FlowFunnelOne from './Components/FlowFunnelOne.jsx'
+import ActivityTimelineOne from './Components/ActivityTimelineOne.jsx'
 
 // ─────────────────────────────────────────────────────────────
 //  Page titles
@@ -139,7 +140,7 @@ function OverviewPage({ sessions, leads, metrics, hourly, styleCounts, priceData
           icon="🕐"
           delay={250}
         >
-          <ActivityTimeline events={timeline} />
+          <ActivityTimelineOne events={timeline} />
         </CardOne>
       </div>
 
