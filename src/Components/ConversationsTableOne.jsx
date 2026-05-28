@@ -135,7 +135,7 @@ function AvatarCell({ name, sub, index }) {
 
 const FILTER_OPTIONS = ['All', ...STEP_ORDER]
 
-export default function ConversationsTable({ sessions = [] }) {
+export default function ConversationsTableOne({ sessions = [] }) {
   const [activeFilter, setActiveFilter] = useState('All')
   const [search,       setSearch]       = useState('')
 

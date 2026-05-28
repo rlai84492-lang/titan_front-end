@@ -1,10 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
-// import Sidebar from './components/Sidebar.jsx'
-// import Topbar  from './components/Topbar.jsx'
-// import Card    from './Components/CardOne.jsx'
-// import MetricCardOne from './Components/MetricCardOneOne.jsx'
-// import FlowFunnelOne from './components/FlowFunnelOne.jsx'
-import ConversationsTable from './components/ConversationsTable.jsx'
+
 import LeadsTable         from './components/LeadsTable.jsx'
 import ActivityTimeline   from './components/ActivityTimeline.jsx'
 import {
@@ -13,12 +8,6 @@ import {
 } from './Components/Charts.jsx'
 
 
-// import {
-//   apiFetch,
-//   getMockSessions, getMockLeads, getMockHourly,
-//   getMockCampaignWeek, getMockPriceData, getMockTimeline,
-//   computeMetrics, getStyleCounts, getCollectionCounts,
-// } from './mockData.js'
 
 
 
@@ -28,6 +17,7 @@ import TopBarOne from './Components/TopBarOne.jsx'
 import CardOne from './components/CardOne.jsx'
 import MetricCardOne from './Components/MetricCardOne.jsx'
 import FlowFunnelOne from './Components/FlowFunnelOne.jsx'
+import ConversationsTableOne from './Components/ConversationsTableOne.jsx'
 
 // ─────────────────────────────────────────────────────────────
 //  Page titles
@@ -127,7 +117,7 @@ function OverviewPage({ sessions, leads, metrics, hourly, styleCounts, priceData
               </span>
             }
           >
-            <ConversationsTable sessions={sessions} />
+            <ConversationsTableOne sessions={sessions} />
           </CardOne>
         </div>
 
@@ -217,7 +207,7 @@ function ConversationsPage({ sessions }) {
         ].map((m,i) => <MetricCardOne key={i} {...m} delay={i*50} />)}
       </div>
       <Card title="All conversations" subtitle="Filterable by step, searchable by name or phone" icon="💬">
-        <ConversationsTable sessions={sessions} />
+        <ConversationsTableOne sessions={sessions} />
       </Card>
     </div>
   )
