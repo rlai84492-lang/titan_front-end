@@ -178,7 +178,7 @@ export function ExportBar({ tableId, title, data, filename, compact = false }) {
 }
 
 // ─── Card ─────────────────────────────────────────────────────────────────────
-export default function Card({
+export default function CardOne({
   title,
   subtitle,
   icon,

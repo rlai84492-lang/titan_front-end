@@ -102,7 +102,7 @@
 import React, { useState, useMemo } from 'react'
 import { Search } from 'lucide-react'
 import { relTime, initials } from '../mockData.js'
-import { ExportBar } from './Card.jsx'
+import { ExportBar } from './CardOne.jsx'
 
 const AVATAR_COLORS = [
   ['#FEF0EB','#E85A2B'], ['#EBF4FD','#378ADD'], ['#E1F5EE','#1D9E75'],

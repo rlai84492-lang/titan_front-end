@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 // import Sidebar from './components/Sidebar.jsx'
 // import Topbar  from './components/Topbar.jsx'
-import Card    from './components/Card.jsx'
+// import Card    from './Components/CardOne.jsx'
 import MetricCard from './components/MetricCard.jsx'
 import FlowFunnel from './components/FlowFunnel.jsx'
 import ConversationsTable from './components/ConversationsTable.jsx'
@@ -25,6 +25,7 @@ import {
 import { fetchDashboard } from './api/dashboardApi.js'
 import SideBar from './components/Sidebar.jsx'
 import TopBarOne from './Components/TopBarOne.jsx'
+import CardOne from './components/CardOne.jsx'
 
 // ─────────────────────────────────────────────────────────────
 //  Page titles
@@ -90,29 +91,29 @@ function OverviewPage({ sessions, leads, metrics, hourly, styleCounts, priceData
 
       {/* ── Row 1: Funnel + Hourly messages ────────── */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        <Card
+        <CardOne
           title="Bot flow drop-off"
           subtitle="How many users reached each step"
           icon="🔽"
           delay={100}
         >
           <FlowFunnel sessions={sessions} />
-        </Card>
+        </CardOne>
 
-        <Card
+        <CardOne
           title="Messages today"
           subtitle="Inbound vs outbound by hour"
           icon="📩"
           delay={150}
         >
           <MessagesChart data={hourly} />
-        </Card>
+        </CardOne>
       </div>
 
       {/* ── Row 2: Conversations table + Timeline ──── */}
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-5">
         <div className="xl:col-span-2">
-          <Card
+          <CardOne
             title="Active conversations"
             subtitle="All WhatsApp bot sessions in real-time"
             icon="💬"
@@ -125,42 +126,42 @@ function OverviewPage({ sessions, leads, metrics, hourly, styleCounts, priceData
             }
           >
             <ConversationsTable sessions={sessions} />
-          </Card>
+          </CardOne>
         </div>
 
-        <Card
+        <CardOne
           title="Activity feed"
           subtitle="Real-time events from bot"
           icon="🕐"
           delay={250}
         >
           <ActivityTimeline events={timeline} />
-        </Card>
+        </CardOne>
       </div>
 
       {/* ── Row 3: Style + Price charts ────────────── */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        <Card
+        <CardOne
           title="Style preferences"
           subtitle="Which watch style users are choosing"
           icon="🎨"
           delay={300}
         >
           <StyleChart counts={styleCounts} />
-        </Card>
+        </CardOne>
 
-        <Card
+        <CardOne
           title="Price range selection"
           subtitle="Budget preferences from Price Filter step"
           icon="💰"
           delay={350}
         >
           <PriceChart data={priceData} />
-        </Card>
+        </CardOne>
       </div>
 
       {/* ── Leads table ─────────────────────────────── */}
-      <Card
+      <CardOne
         title="Lead management"
         subtitle="All callback, store visit & website leads"
         icon="🎯"
@@ -172,27 +173,27 @@ function OverviewPage({ sessions, leads, metrics, hourly, styleCounts, priceData
         }
       >
         <LeadsTable leads={leads} />
-      </Card>
+      </CardOne>
 
       {/* ── Row 4: Campaign + Collection ─────────────── */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        <Card
+        <CardOne
           title="Campaign sends this week"
           subtitle="T-10 and T-Day campaign volume"
           icon="📅"
           delay={450}
         >
           <CampaignChart data={campData} />
-        </Card>
+        </CardOne>
 
-        <Card
+        <CardOne
           title="Collection split"
           subtitle="Men's vs Women's selection count"
           icon="📊"
           delay={500}
         >
           <CollectionChart data={collData} />
-        </Card>
+        </CardOne>
       </div>
 
     </div>

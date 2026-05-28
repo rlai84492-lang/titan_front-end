@@ -107,7 +107,7 @@ import React, { useState, useMemo } from 'react'
 import { Search, Download, Filter } from 'lucide-react'
 import StepBadge from './StepBadge.jsx'
 import { STEP_ORDER, STEP_LABELS, relTime, initials } from '../mockData.js'
-import { ExportBar, exportToCSV, exportToPDF } from './Card.jsx'
+import { ExportBar, exportToCSV, exportToPDF } from './CardOne.jsx'
 
 const AVATAR_COLORS = [
   ['#EBF4FD','#378ADD'], ['#FEF0EB','#E85A2B'], ['#E1F5EE','#1D9E75'],
