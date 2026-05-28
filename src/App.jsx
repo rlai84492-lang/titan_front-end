@@ -25,13 +25,14 @@ import {
 import { fetchDashboard } from './api/dashboardApi.js'
 // import SideBar from './Components/SideBarOne.jsx'
 import TopBarOne from './Components/TopBarOne.jsx'
-import CardOne from './components/CardOne.jsx'
+// import CardOne from './components/CardOne.jsx'
 import MetricCardOne from './Components/MetricCardOne.jsx'
 import ConversationsTableOne from './Components/ConversationsTableOne.jsx'
 import LeadsTableOne from './Components/LeadsTableOne.jsx'
 import FlowFunnelOne from './Components/FlowFunnelOne.jsx'
 import ActivityTimelineOne from './Components/ActivityTimelineOne.jsx'
 import SideBarOne from './Components/SideBarOne.jsx'
+import CardOne from './Components/CardOne.jsx'
 
 // ─────────────────────────────────────────────────────────────
 //  Page titles
@@ -61,9 +62,9 @@ function SectionTitle({ children }) {
   )
 }
 
-// ─────────────────────────────────────────────────────────────
+// ────────────────────────────────────────────────────────────
 //  Empty state stub for non-overview pages
-// ─────────────────────────────────────────────────────────────
+// ────────────────────────────────────────────────────────────
 function ComingSoon({ icon, label }) {
   return (
     <div className="flex flex-col items-center justify-center py-28 text-center">
@@ -76,9 +77,9 @@ function ComingSoon({ icon, label }) {
   )
 }
 
-// ─────────────────────────────────────────────────────────────
+// ────────────────────────────────────────────────────────────
 //  OVERVIEW PAGE
-// ─────────────────────────────────────────────────────────────
+// ────────────────────────────────────────────────────────────
 function OverviewPage({ sessions, leads, metrics, hourly, styleCounts, priceData, campData, collData, timeline }) {
   return (
     <div className="space-y-5">
