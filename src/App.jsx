@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 // import Sidebar from './components/Sidebar.jsx'
-import Topbar  from './components/Topbar.jsx'
+// import Topbar  from './components/Topbar.jsx'
 import Card    from './components/Card.jsx'
 import MetricCard from './components/MetricCard.jsx'
 import FlowFunnel from './components/FlowFunnel.jsx'
@@ -24,6 +24,7 @@ import {
 
 import { fetchDashboard } from './api/dashboardApi.js'
 import SideBar from './components/Sidebar.jsx'
+import TopBarOne from './Components/TopBarOne.jsx'
 
 // ─────────────────────────────────────────────────────────────
 //  Page titles
@@ -452,7 +453,7 @@ const refresh = useCallback(async () => {
 
 
       {/* Topbar */}
-      <Topbar
+      <TopBarOne
         pageTitle={PAGE_TITLES[activePage] || 'Dashboard'}
         onRefresh={refresh}
         loading={loading}

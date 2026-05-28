@@ -139,7 +139,7 @@ const USER = {
   email: 'samarth@titan.in',
 }
 
-export default function TopBar({ pageTitle, onRefresh, loading, lastRefresh, sidebarW }) {
+export default function TopBarOne({ pageTitle, onRefresh, loading, lastRefresh, sidebarW }) {
   const [showProfile, setShowProfile] = useState(false)
   const [showNotif,   setShowNotif]   = useState(false)
   const [search,      setSearch]      = useState('')
