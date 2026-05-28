@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react'
 // import Sidebar from './components/Sidebar.jsx'
 // import Topbar  from './components/Topbar.jsx'
 // import Card    from './Components/CardOne.jsx'
-import MetricCard from './components/MetricCard.jsx'
+// import MetricCardOne from './Components/MetricCardOneOne.jsx'
 import FlowFunnel from './components/FlowFunnel.jsx'
 import ConversationsTable from './components/ConversationsTable.jsx'
 import LeadsTable         from './components/LeadsTable.jsx'
@@ -26,6 +26,7 @@ import { fetchDashboard } from './api/dashboardApi.js'
 import SideBar from './components/Sidebar.jsx'
 import TopBarOne from './Components/TopBarOne.jsx'
 import CardOne from './components/CardOne.jsx'
+import MetricCardOne from './Components/MetricCardOne.jsx'
 
 // ─────────────────────────────────────────────────────────────
 //  Page titles
@@ -79,14 +80,14 @@ function OverviewPage({ sessions, leads, metrics, hourly, styleCounts, priceData
 
       {/* ── Metric tiles ───────────────────────────── */}
       <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-3">
-        <MetricCard icon="👥" label="Users Reached"    value={metrics.totalReached}   delta="+3 today"  up accent="blue"   delay={0}   />
-        <MetricCard icon="💬" label="Active Sessions"  value={metrics.activeSessions} delta="Live now"  up accent="orange" delay={50}  />
-        <MetricCard icon="📞" label="Callback Leads"   value={metrics.callbackLeads}  delta="+2 today"  up accent="green"  delay={100} />
-        <MetricCard icon="🏪" label="Store Visits"     value={metrics.storeVisits}    delta="+1 today"  up accent="purple" delay={150} />
-        <MetricCard icon="✅" label="Completed Flows"  value={metrics.completedFlows} delta="This week"  up accent="green"  delay={200} />
-        <MetricCard icon="📊" label="Conversion Rate"  value={`${metrics.conversionRate}%`} delta={metrics.conversionRate >= 30 ? '↑ Good' : '↓ Low'} up={metrics.conversionRate >= 30} accent="amber" delay={250} />
-        {/* <MetricCard icon="🆕" label="New Leads"        value={metrics.newLeads}       delta="Unactioned" up={false} accent="pink"   delay={300} /> */}
-        {/* <MetricCard icon="🏆" label="Converted"        value={metrics.converted}      delta="Total"     up accent="green"  delay={350} /> */}
+        <MetricCardOne icon="👥" label="Users Reached"    value={metrics.totalReached}   delta="+3 today"  up accent="blue"   delay={0}   />
+        <MetricCardOne icon="💬" label="Active Sessions"  value={metrics.activeSessions} delta="Live now"  up accent="orange" delay={50}  />
+        <MetricCardOne icon="📞" label="Callback Leads"   value={metrics.callbackLeads}  delta="+2 today"  up accent="green"  delay={100} />
+        <MetricCardOne icon="🏪" label="Store Visits"     value={metrics.storeVisits}    delta="+1 today"  up accent="purple" delay={150} />
+        <MetricCardOne icon="✅" label="Completed Flows"  value={metrics.completedFlows} delta="This week"  up accent="green"  delay={200} />
+        <MetricCardOne icon="📊" label="Conversion Rate"  value={`${metrics.conversionRate}%`} delta={metrics.conversionRate >= 30 ? '↑ Good' : '↓ Low'} up={metrics.conversionRate >= 30} accent="amber" delay={250} />
+        {/* <MetricCardOne icon="🆕" label="New Leads"        value={metrics.newLeads}       delta="Unactioned" up={false} accent="pink"   delay={300} /> */}
+        {/* <MetricCardOne icon="🏆" label="Converted"        value={metrics.converted}      delta="Total"     up accent="green"  delay={350} /> */}
       </div>
 
       {/* ── Row 1: Funnel + Hourly messages ────────── */}
@@ -212,7 +213,7 @@ function ConversationsPage({ sessions }) {
           { icon:'🟢', label:'Active now',      value: sessions.filter(s=>s.isActive).length,                 accent:'green'  },
           { icon:'✅', label:'Completed',       value: sessions.filter(s=>s.currentStep==='COMPLETED').length, accent:'orange' },
           { icon:'⏳', label:'In progress',     value: sessions.filter(s=>s.isActive&&s.currentStep!=='COMPLETED').length, accent:'purple' },
-        ].map((m,i) => <MetricCard key={i} {...m} delay={i*50} />)}
+        ].map((m,i) => <MetricCardOne key={i} {...m} delay={i*50} />)}
       </div>
       <Card title="All conversations" subtitle="Filterable by step, searchable by name or phone" icon="💬">
         <ConversationsTable sessions={sessions} />
@@ -234,10 +235,10 @@ function LeadsPage({ leads }) {
   return (
     <div className="space-y-5">
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <MetricCard icon="🎯" label="Total leads"   value={m.total}     accent="blue"   delay={0}   />
-        <MetricCard icon="🆕" label="New"            value={m.newL}      accent="amber"  delay={50}  />
-        <MetricCard icon="🏆" label="Converted"      value={m.converted} accent="green"  delay={100} />
-        <MetricCard icon="📞" label="Callback leads" value={m.callbacks} accent="orange" delay={150} />
+        <MetricCardOne icon="🎯" label="Total leads"   value={m.total}     accent="blue"   delay={0}   />
+        <MetricCardOne icon="🆕" label="New"            value={m.newL}      accent="amber"  delay={50}  />
+        <MetricCardOne icon="🏆" label="Converted"      value={m.converted} accent="green"  delay={100} />
+        <MetricCardOne icon="📞" label="Callback leads" value={m.callbacks} accent="orange" delay={150} />
       </div>
       <Card title="All leads" subtitle="Manage and track all incoming bot leads" icon="🎯">
         <LeadsTable leads={leads} />

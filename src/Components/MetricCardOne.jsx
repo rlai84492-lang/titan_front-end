@@ -220,7 +220,7 @@ const THEMES = {
   },
 }
 
-export default function MetricCard({
+export default function MetricCardOne({
   icon,
   label,
   value,
