@@ -3,14 +3,14 @@ import React, { useState, useEffect, useCallback } from 'react'
 // import Topbar  from './components/Topbar.jsx'
 // import Card    from './Components/CardOne.jsx'
 // import MetricCardOne from './Components/MetricCardOneOne.jsx'
-import FlowFunnel from './components/FlowFunnel.jsx'
+// import FlowFunnelOne from './components/FlowFunnelOne.jsx'
 import ConversationsTable from './components/ConversationsTable.jsx'
 import LeadsTable         from './components/LeadsTable.jsx'
 import ActivityTimeline   from './components/ActivityTimeline.jsx'
 import {
   MessagesChart, StyleChart, PriceChart,
   CampaignChart, CollectionChart,
-} from './components/Charts.jsx'
+} from './Components/Charts.jsx'
 
 
 // import {
@@ -27,6 +27,7 @@ import SideBar from './components/Sidebar.jsx'
 import TopBarOne from './Components/TopBarOne.jsx'
 import CardOne from './components/CardOne.jsx'
 import MetricCardOne from './Components/MetricCardOne.jsx'
+import FlowFunnelOne from './Components/FlowFunnelOne.jsx'
 
 // ─────────────────────────────────────────────────────────────
 //  Page titles
@@ -98,7 +99,7 @@ function OverviewPage({ sessions, leads, metrics, hourly, styleCounts, priceData
           icon="🔽"
           delay={100}
         >
-          <FlowFunnel sessions={sessions} />
+          <FlowFunnelOne sessions={sessions} />
         </CardOne>
 
         <CardOne
@@ -255,7 +256,7 @@ function AnalyticsPage({ sessions, hourly, styleCounts, priceData, campData, col
     <div className="space-y-5">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         <Card title="Bot flow drop-off funnel" icon="🔽">
-          <FlowFunnel sessions={sessions} />
+          <FlowFunnelOne sessions={sessions} />
         </Card>
         <Card title="Messages by hour" icon="📩">
           <MessagesChart data={hourly} />
