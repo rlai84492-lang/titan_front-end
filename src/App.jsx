@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 
-import LeadsTable         from './components/LeadsTable.jsx'
+// import LeadsTableOne         from './Components/LeadsTableOneOne.jsx'
 import ActivityTimeline   from './components/ActivityTimeline.jsx'
 import {
   MessagesChart, StyleChart, PriceChart,
@@ -18,6 +18,7 @@ import CardOne from './components/CardOne.jsx'
 import MetricCardOne from './Components/MetricCardOne.jsx'
 import FlowFunnelOne from './Components/FlowFunnelOne.jsx'
 import ConversationsTableOne from './Components/ConversationsTableOne.jsx'
+import LeadsTableOne from './Components/LeadsTableOne.jsx'
 
 // ─────────────────────────────────────────────────────────────
 //  Page titles
@@ -164,7 +165,7 @@ function OverviewPage({ sessions, leads, metrics, hourly, styleCounts, priceData
           </button>
         }
       >
-        <LeadsTable leads={leads} />
+        <LeadsTableOne leads={leads} />
       </CardOne>
 
       {/* ── Row 4: Campaign + Collection ─────────────── */}
@@ -232,7 +233,7 @@ function LeadsPage({ leads }) {
         <MetricCardOne icon="📞" label="Callback leads" value={m.callbacks} accent="orange" delay={150} />
       </div>
       <Card title="All leads" subtitle="Manage and track all incoming bot leads" icon="🎯">
-        <LeadsTable leads={leads} />
+        <LeadsTableOne leads={leads} />
       </Card>
     </div>
   )

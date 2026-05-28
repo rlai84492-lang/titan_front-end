@@ -147,7 +147,7 @@ function StatusPill({ status }) {
   )
 }
 
-export default function LeadsTable({ leads = [] }) {
+export default function LeadsTableOne({ leads = [] }) {
   const [search, setSearch] = useState('')
   const [typeFilter, setTypeFilter] = useState('All')
 
