@@ -1,6 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react'
-
-// import LeadsTableOne         from './Components/LeadsTableOneOne.jsx'
+// import Sidebar from './components/Sidebar.jsx'
+// import Topbar  from './components/Topbar.jsx'
+// import Card    from './Components/CardOne.jsx'
+// import MetricCardOne from './Components/MetricCardOneOne.jsx'
+// import FlowFunnel from './components/FlowFunnel.jsx'
+// import ConversationsTable from './components/ConversationsTable.jsx'
+// import LeadsTableOne         from './components/LeadsTableOne.jsx'
 import ActivityTimeline   from './components/ActivityTimeline.jsx'
 import {
   MessagesChart, StyleChart, PriceChart,
@@ -8,17 +13,23 @@ import {
 } from './Components/Charts.jsx'
 
 
+// import {
+//   apiFetch,
+//   getMockSessions, getMockLeads, getMockHourly,
+//   getMockCampaignWeek, getMockPriceData, getMockTimeline,
+//   computeMetrics, getStyleCounts, getCollectionCounts,
+// } from './mockData.js'
 
 
 
 import { fetchDashboard } from './api/dashboardApi.js'
-import SideBar from './components/Sidebar.jsx'
+import SideBar from './Components/SideBar.jsx'
 import TopBarOne from './Components/TopBarOne.jsx'
 import CardOne from './components/CardOne.jsx'
 import MetricCardOne from './Components/MetricCardOne.jsx'
-import FlowFunnelOne from './Components/FlowFunnelOne.jsx'
 import ConversationsTableOne from './Components/ConversationsTableOne.jsx'
 import LeadsTableOne from './Components/LeadsTableOne.jsx'
+import FlowFunnelOne from './Components/FlowFunnelOne.jsx'
 
 // ─────────────────────────────────────────────────────────────
 //  Page titles
@@ -207,9 +218,9 @@ function ConversationsPage({ sessions }) {
           { icon:'⏳', label:'In progress',     value: sessions.filter(s=>s.isActive&&s.currentStep!=='COMPLETED').length, accent:'purple' },
         ].map((m,i) => <MetricCardOne key={i} {...m} delay={i*50} />)}
       </div>
-      <Card title="All conversations" subtitle="Filterable by step, searchable by name or phone" icon="💬">
+      <CardOne title="All conversations" subtitle="Filterable by step, searchable by name or phone" icon="💬">
         <ConversationsTableOne sessions={sessions} />
-      </Card>
+      </CardOne>
     </div>
   )
 }
@@ -232,9 +243,9 @@ function LeadsPage({ leads }) {
         <MetricCardOne icon="🏆" label="Converted"      value={m.converted} accent="green"  delay={100} />
         <MetricCardOne icon="📞" label="Callback leads" value={m.callbacks} accent="orange" delay={150} />
       </div>
-      <Card title="All leads" subtitle="Manage and track all incoming bot leads" icon="🎯">
+      <CardOne title="All leads" subtitle="Manage and track all incoming bot leads" icon="🎯">
         <LeadsTableOne leads={leads} />
-      </Card>
+      </CardOne>
     </div>
   )
 }
@@ -246,28 +257,28 @@ function AnalyticsPage({ sessions, hourly, styleCounts, priceData, campData, col
   return (
     <div className="space-y-5">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        <Card title="Bot flow drop-off funnel" icon="🔽">
+        <CardOne title="Bot flow drop-off funnel" icon="🔽">
           <FlowFunnelOne sessions={sessions} />
-        </Card>
-        <Card title="Messages by hour" icon="📩">
+        </CardOne>
+        <CardOne title="Messages by hour" icon="📩">
           <MessagesChart data={hourly} />
-        </Card>
+        </CardOne>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        <Card title="Style preferences" icon="🎨">
+        <CardOne title="Style preferences" icon="🎨">
           <StyleChart counts={styleCounts} />
-        </Card>
-        <Card title="Price range selection" icon="💰">
+        </CardOne>
+        <CardOne title="Price range selection" icon="💰">
           <PriceChart data={priceData} />
-        </Card>
+        </CardOne>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        <Card title="Campaign volume (weekly)" icon="📅">
+        <CardOne title="Campaign volume (weekly)" icon="📅">
           <CampaignChart data={campData} />
-        </Card>
-        <Card title="Collection split" icon="📊">
+        </CardOne>
+        <CardOne title="Collection split" icon="📊">
           <CollectionChart data={collData} />
-        </Card>
+        </CardOne>
       </div>
     </div>
   )

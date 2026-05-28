@@ -1,7 +1,7 @@
 import React from 'react'
 import { STEP_ORDER, STEP_LABELS, STEP_COLORS, getFunnelCounts } from '../mockData.js'
 
-export default function FlowFunnel({ sessions }) {
+export default function FlowFunnelOne({ sessions }) {
   const counts = getFunnelCounts(sessions)
   const max = Math.max(...Object.values(counts), 1)
 
