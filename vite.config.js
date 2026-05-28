@@ -9,7 +9,10 @@ export default defineConfig({
       '/api': {
         target: 'http://localhost:8080',
         changeOrigin: true,
-      },ßßß
+      },
     },
+    allowedHosts: [
+      'quack-freestyle-slashed.ngrok-free.dev'
+    ]
   },
 })

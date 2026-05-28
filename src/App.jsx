@@ -11,12 +11,18 @@ import {
   MessagesChart, StyleChart, PriceChart,
   CampaignChart, CollectionChart,
 } from './components/Charts.jsx'
-import {
-  apiFetch,
-  getMockSessions, getMockLeads, getMockHourly,
-  getMockCampaignWeek, getMockPriceData, getMockTimeline,
-  computeMetrics, getStyleCounts, getCollectionCounts,
-} from './mockData.js'
+
+
+// import {
+//   apiFetch,
+//   getMockSessions, getMockLeads, getMockHourly,
+//   getMockCampaignWeek, getMockPriceData, getMockTimeline,
+//   computeMetrics, getStyleCounts, getCollectionCounts,
+// } from './mockData.js'
+
+
+
+import { fetchDashboard } from './api/dashboardApi.js'
 
 // ─────────────────────────────────────────────────────────────
 //  Page titles
@@ -69,15 +75,15 @@ function OverviewPage({ sessions, leads, metrics, hourly, styleCounts, priceData
     <div className="space-y-5">
 
       {/* ── Metric tiles ───────────────────────────── */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-8 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-3">
         <MetricCard icon="👥" label="Users Reached"    value={metrics.totalReached}   delta="+3 today"  up accent="blue"   delay={0}   />
         <MetricCard icon="💬" label="Active Sessions"  value={metrics.activeSessions} delta="Live now"  up accent="orange" delay={50}  />
         <MetricCard icon="📞" label="Callback Leads"   value={metrics.callbackLeads}  delta="+2 today"  up accent="green"  delay={100} />
         <MetricCard icon="🏪" label="Store Visits"     value={metrics.storeVisits}    delta="+1 today"  up accent="purple" delay={150} />
         <MetricCard icon="✅" label="Completed Flows"  value={metrics.completedFlows} delta="This week"  up accent="green"  delay={200} />
         <MetricCard icon="📊" label="Conversion Rate"  value={`${metrics.conversionRate}%`} delta={metrics.conversionRate >= 30 ? '↑ Good' : '↓ Low'} up={metrics.conversionRate >= 30} accent="amber" delay={250} />
-        <MetricCard icon="🆕" label="New Leads"        value={metrics.newLeads}       delta="Unactioned" up={false} accent="pink"   delay={300} />
-        <MetricCard icon="🏆" label="Converted"        value={metrics.converted}      delta="Total"     up accent="green"  delay={350} />
+        {/* <MetricCard icon="🆕" label="New Leads"        value={metrics.newLeads}       delta="Unactioned" up={false} accent="pink"   delay={300} /> */}
+        {/* <MetricCard icon="🏆" label="Converted"        value={metrics.converted}      delta="Total"     up accent="green"  delay={350} /> */}
       </div>
 
       {/* ── Row 1: Funnel + Hourly messages ────────── */}
@@ -293,31 +299,97 @@ export default function App() {
   const sidebarW = collapsed ? '68px' : '240px'
 
   // ── Data refresh ──────────────────────────────
-  const refresh = useCallback(async () => {
-    setLoading(true)
-    try {
-      const [apiSessions, apiLeads] = await Promise.all([
-        apiFetch('/api/bot-sessions'),
-        apiFetch('/api/leads'),
-      ])
+  // const refresh = useCallback(async () => {
+  //   setLoading(true)
+  //   try {
+  //     const [apiSessions, apiLeads] = await Promise.all([
+  //       apiFetch('/api/bot-sessions'),
+  //       apiFetch('/api/leads'),
+  //     ])
 
-      const s = Array.isArray(apiSessions) ? apiSessions : getMockSessions()
-      const l = Array.isArray(apiLeads)    ? apiLeads    : getMockLeads()
+  //     const s = Array.isArray(apiSessions) ? apiSessions : getMockSessions()
+  //     const l = Array.isArray(apiLeads)    ? apiLeads    : getMockLeads()
 
-      setSessions(s)
-      setLeads(l)
-      setMetrics(computeMetrics(s, l))
-      setHourly(getMockHourly())
-      setStyleCounts(getStyleCounts(s))
-      setPriceData(getMockPriceData())
-      setCampData(getMockCampaignWeek())
-      setCollData(getCollectionCounts(s))
-      setTimeline(getMockTimeline())
-      setLastRefresh(new Date())
-    } finally {
-      setLoading(false)
-    }
-  }, [])
+  //     setSessions(s)
+  //     setLeads(l)
+  //     setMetrics(computeMetrics(s, l))
+  //     setHourly(getMockHourly())
+  //     setStyleCounts(getStyleCounts(s))
+  //     setPriceData(getMockPriceData())
+  //     setCampData(getMockCampaignWeek())
+  //     setCollData(getCollectionCounts(s))
+  //     setTimeline(getMockTimeline())
+  //     setLastRefresh(new Date())
+  //   } finally {
+  //     setLoading(false)
+  //   }
+  // }, [])
+
+const refresh = useCallback(async () => {
+  setLoading(true)
+
+  try {
+    const data = await fetchDashboard()
+
+    console.log('Dashboard data fetched:', data);
+
+    setSessions(Array.isArray(data.sessions) ? data.sessions : [])
+    setLeads(Array.isArray(data.leads) ? data.leads : [])
+
+    setMetrics(data.metrics || {
+      totalReached: 0,
+      activeSessions: 0,
+      callbackLeads: 0,
+      storeVisits: 0,
+      completedFlows: 0,
+      conversionRate: 0,
+      newLeads: 0,
+      converted: 0,
+    })
+
+    setHourly(data.hourly || {
+      labels: [],
+      inbound: [],
+      outbound: [],
+    })
+
+    setStyleCounts(data.styleCounts || {
+      MINIMAL_CHIC: 0,
+      BOLD_EDGY: 0,
+      LUXE_CLASSY: 0,
+      SPORTY_ADVENTUROUS: 0,
+    })
+
+    setPriceData(data.priceData || {
+      '₹2k–5k': 0,
+      '₹5k–10k': 0,
+      '₹10k–25k': 0,
+      '>₹25k': 0,
+    })
+
+    setCampData(data.campData || {
+      labels: [],
+      t10: [],
+      tday: [],
+    })
+
+    setCollData(data.collData || {
+      mens: 0,
+      womens: 0,
+    })
+
+    setTimeline(Array.isArray(data.timeline) ? data.timeline : [])
+
+    setLastRefresh(new Date())
+  } catch (error) {
+    console.error('Dashboard refresh failed:', error)
+  } finally {
+    setLoading(false)
+  }
+}, [])
+
+
+
 
   useEffect(() => {
     refresh()
@@ -358,13 +430,25 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#F8F7F6]">
 
-      {/* Sidebar */}
+      {/* Sidebar
       <Sidebar
         active={activePage}
         setActive={setActivePage}
         collapsed={collapsed}
         setCollapsed={setCollapsed}
-      />
+      /> */}
+
+      <Sidebar
+  active={activePage}
+  setActive={setActivePage}
+  collapsed={collapsed}
+  setCollapsed={setCollapsed}
+  sessionCount={sessions.length}
+  leadCount={leads.length}
+/>
+
+
+
 
       {/* Topbar */}
       <Topbar
@@ -383,7 +467,7 @@ export default function App() {
           transition: 'margin-left 0.25s cubic-bezier(0.4,0,0.2,1)',
         }}
       >
-        <div className="p-6 max-w-[1400px]">
+        <div className="p-3 max-w-[1600px]">
           {renderPage()}
         </div>
       </main>
