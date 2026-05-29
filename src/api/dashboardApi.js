@@ -1,6 +1,6 @@
 const API_BASE =
   import.meta.env.VITE_API_BASE_URL ||
-  'http://localhost:8081'
+  'https://quack-freestyle-slashed.ngrok-free.dev'
 
 export async function fetchDashboard() {
   const response = await fetch(`${API_BASE}/api/dashboard`, {
