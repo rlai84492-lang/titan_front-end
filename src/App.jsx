@@ -1,27 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react'
-// import Sidebar from './components/Sidebar.jsx'
-// import Topbar  from './components/Topbar.jsx'
-// import Card    from './Components/CardOne.jsx'
-// import MetricCardOne from './Components/MetricCardOneOne.jsx'
-// import FlowFunnel from './components/FlowFunnel.jsx'
-// import ConversationsTable from './components/ConversationsTable.jsx'
-// import LeadsTableOne         from './components/LeadsTableOne.jsx'
-// import ActivityTimeline   from './components/ActivityTimeline.jsx'
 import {
   MessagesChart, StyleChart, PriceChart,
   CampaignChart, CollectionChart,
 } from './Components/Charts.jsx'
-
-
-// import {
-//   apiFetch,
-//   getMockSessions, getMockLeads, getMockHourly,
-//   getMockCampaignWeek, getMockPriceData, getMockTimeline,
-//   computeMetrics, getStyleCounts, getCollectionCounts,
-// } from './mockData.js'
-
-
-
 import { fetchDashboard } from './api/dashboardApi.js'
 // import SideBar from './Components/SideBarOne.jsx'
 import TopBarOne from './Components/TopBarOne.jsx'
@@ -33,10 +14,15 @@ import FlowFunnelOne from './Components/FlowFunnelOne.jsx'
 import ActivityTimelineOne from './Components/ActivityTimelineOne.jsx'
 import SideBarOne from './Components/SideBarOne.jsx'
 import CardOne from './Components/CardOne.jsx'
+import { clearAuth, getToken, getUser } from './api/authApi.js'
+// import LoginPageOne from './Components/LoginPage/Components/LoginPageOne.jsx'
+import { useAuth } from './context/AuthContext.jsx'
+import LoginPageOne from './Components/LoginPage/Components/LoginPageOne.jsx'
 
 // ─────────────────────────────────────────────────────────────
 //  Page titles
-// ─────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────import { useAuth } from './context/AuthContext.jsx'
+
 const PAGE_TITLES = {
   overview:      'Dashboard Overview',
   conversations: 'Conversations',
@@ -287,6 +273,11 @@ function AnalyticsPage({ sessions, hourly, styleCounts, priceData, campData, col
   )
 }
 
+function handleLogout() {
+  clearAuth()
+  setAuthUser(null)
+}
+
 // ─────────────────────────────────────────────────────────────
 //  ROOT APP
 // ─────────────────────────────────────────────────────────────
@@ -304,6 +295,15 @@ export default function App() {
   const [timeline,   setTimeline]     = useState([])
   const [loading,    setLoading]      = useState(false)
   const [lastRefresh,setLastRefresh]  = useState(null)
+
+
+
+const { user, isAuthenticated, authLoading, logout } = useAuth()
+
+
+
+
+
 
   // ── Sidebar width ─────────────────────────────
   const sidebarW = collapsed ? '68px' : '240px'
@@ -436,6 +436,26 @@ const refresh = useCallback(async () => {
         return null
     }
   }
+if (authLoading) {
+  return (
+    <div className="min-h-screen bg-[#F8F7F6] flex items-center justify-center">
+      <div className="bg-white border border-[#EFEDEA] shadow-card rounded-2xl px-6 py-4 text-sm text-[#A49D94]">
+        Checking session...
+      </div>
+    </div>
+  )
+}
+
+if (!isAuthenticated) {
+  return <LoginPageOne />
+}
+
+
+
+function handleLogout() {
+  clearAuth()
+  setAuthUser(null)
+}
 
   return (
     <div className="min-h-screen bg-[#F8F7F6]">
@@ -467,6 +487,9 @@ const refresh = useCallback(async () => {
         loading={loading}
         lastRefresh={lastRefresh}
         sidebarW={sidebarW}
+
+        user={user}
+  onLogout={logout}
       />
 
       {/* Main content */}
