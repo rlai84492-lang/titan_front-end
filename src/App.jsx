@@ -3,7 +3,7 @@ import {
   MessagesChart, StyleChart, PriceChart,
   CampaignChart, CollectionChart,
 } from './Components/Charts.jsx'
-import { fetchDashboard } from './api/dashboardApi.js'
+import { fetchDashboard ,fetchLeads} from './api/dashboardApi.js'
 // import SideBar from './Components/SideBarOne.jsx'
 import TopBarOne from './Components/TopBarOne.jsx'
 // import CardOne from './components/CardOne.jsx'
@@ -335,16 +335,87 @@ const { user, isAuthenticated, authLoading, logout } = useAuth()
   //   }
   // }, [])
 
+// const refresh = useCallback(async () => {
+//   setLoading(true)
+
+//   try {
+//     const data = await fetchDashboard()
+
+//     setLeads(Array.isArray(data.leads) ? data.leads : [])
+
+//     console.log('Dashboard data fetched:', data);
+
+//     setSessions(Array.isArray(data.sessions) ? data.sessions : [])
+//     setLeads(Array.isArray(data.leads) ? data.leads : [])
+
+//     setMetrics(data.metrics || {
+//       totalReached: 0,
+//       activeSessions: 0,
+//       callbackLeads: 0,
+//       storeVisits: 0,
+//       completedFlows: 0,
+//       conversionRate: 0,
+//       newLeads: 0,
+//       converted: 0,
+//     })
+
+//     setHourly(data.hourly || {
+//       labels: [],
+//       inbound: [],
+//       outbound: [],
+//     })
+
+//     setStyleCounts(data.styleCounts || {
+//       MINIMAL_CHIC: 0,
+//       BOLD_EDGY: 0,
+//       LUXE_CLASSY: 0,
+//       SPORTY_ADVENTUROUS: 0,
+//     })
+
+//     setPriceData(data.priceData || {
+//       '₹2k–5k': 0,
+//       '₹5k–10k': 0,
+//       '₹10k–25k': 0,
+//       '>₹25k': 0,
+//     })
+
+//     setCampData(data.campData || {
+//       labels: [],
+//       t10: [],
+//       tday: [],
+//     })
+
+//     setCollData(data.collData || {
+//       mens: 0,
+//       womens: 0,
+//     })
+
+//     setTimeline(Array.isArray(data.timeline) ? data.timeline : [])
+
+//     setLastRefresh(new Date())
+//   } catch (error) {
+//     console.error('Dashboard refresh failed:', error)
+//   } finally {
+//     setLoading(false)
+//   }
+// }, [])
+
+
+
 const refresh = useCallback(async () => {
   setLoading(true)
 
   try {
-    const data = await fetchDashboard()
+    const [data, apiLeads] = await Promise.all([
+      fetchDashboard(),
+      fetchLeads(),
+    ])
 
-    console.log('Dashboard data fetched:', data);
+    console.log('Dashboard data fetched:', data)
+    console.log('Leads data fetched:', apiLeads)
 
     setSessions(Array.isArray(data.sessions) ? data.sessions : [])
-    setLeads(Array.isArray(data.leads) ? data.leads : [])
+    setLeads(Array.isArray(apiLeads) ? apiLeads : [])
 
     setMetrics(data.metrics || {
       totalReached: 0,
@@ -363,19 +434,9 @@ const refresh = useCallback(async () => {
       outbound: [],
     })
 
-    setStyleCounts(data.styleCounts || {
-      MINIMAL_CHIC: 0,
-      BOLD_EDGY: 0,
-      LUXE_CLASSY: 0,
-      SPORTY_ADVENTUROUS: 0,
-    })
+    setStyleCounts(data.styleCounts || {})
 
-    setPriceData(data.priceData || {
-      '₹2k–5k': 0,
-      '₹5k–10k': 0,
-      '₹10k–25k': 0,
-      '>₹25k': 0,
-    })
+    setPriceData(data.priceData || {})
 
     setCampData(data.campData || {
       labels: [],

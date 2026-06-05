@@ -167,8 +167,6 @@ export default function LeadsTableOne({ leads = [] }) {
     Phone:      '+' + l.phone,
     'Lead Type': l.leadType || '—',
     Collection: l.selectedCollection || '—',
-    Style:      l.selectedStyle ? l.selectedStyle.replace(/_/g,' ') : '—',
-    'Price Range': l.priceRange || '—',
     Status:     l.status || '—',
     Created:    relTime(l.createdAt),
   }))
@@ -215,76 +213,77 @@ export default function LeadsTableOne({ leads = [] }) {
         </div>
       </div>
 
-      {/* Table */}
-      <div className="overflow-x-auto rounded-xl border border-[#EEEBE6]">
-        <table id="leads-table" className="w-full border-collapse text-xs">
-          <thead>
-            <tr style={{ background: 'linear-gradient(135deg, #FAF8F6 0%, #F5F3F0 100%)' }}>
-              {['Customer','Phone','Lead Type','Collection','Style','Price Range','Status','Created'].map(h => (
-                <th
-                  key={h}
-                  className="text-left text-[10px] font-bold text-[#9B9590] uppercase tracking-widest pb-2.5 pt-3 px-4 border-b border-[#EEEBE6] whitespace-nowrap"
-                >
-                  {h}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {filtered.length === 0 ? (
-              <tr>
-                <td colSpan={8} className="text-center py-10 text-[#B0A9A1] text-[13px]">
-                  <div className="flex flex-col items-center gap-2">
-                    <span className="text-2xl opacity-30">🎯</span>
-                    No leads found
-                  </div>
-                </td>
-              </tr>
-            ) : (
-              filtered.map((l, i) => (
-                <tr
-                  key={l.id}
-                  className="table-row-hover border-b border-[#F4F1ED] last:border-0"
-                >
-                  <td className="py-3 px-4">
-                    <div className="flex items-center gap-2.5">
-                      <div
-                        className="w-8 h-8 rounded-xl flex items-center justify-center text-[11px] font-bold flex-shrink-0"
-                        style={{
-                          background: AVATAR_COLORS[i % AVATAR_COLORS.length][0],
-                          color: AVATAR_COLORS[i % AVATAR_COLORS.length][1],
-                        }}
-                      >
-                        {initials(l.customerName || l.phone)}
-                      </div>
-                      <span className="text-[13px] font-semibold text-[#1A1713] whitespace-nowrap">
-                        {l.customerName || 'Unknown'}
-                      </span>
-                    </div>
-                  </td>
-                  <td className="py-3 px-4 font-mono text-[11px] text-[#6B6560] whitespace-nowrap">
-                    +{l.phone}
-                  </td>
-                  <td className="py-3 px-4"><TypePill type={l.leadType} /></td>
-                  <td className="py-3 px-4 text-[12px] text-[#6B6560]">
-                    {l.selectedCollection ?? '—'}
-                  </td>
-                  <td className="py-3 px-4 text-[12px] text-[#6B6560] whitespace-nowrap">
-                    {l.selectedStyle ? l.selectedStyle.replace(/_/g,' ') : '—'}
-                  </td>
-                  <td className="py-3 px-4 text-[12px] text-[#6B6560] whitespace-nowrap">
-                    {l.priceRange ? '₹' + l.priceRange.replace('-', '–₹') : '—'}
-                  </td>
-                  <td className="py-3 px-4"><StatusPill status={l.status} /></td>
-                  <td className="py-3 px-4 text-[12px] text-[#B0A9A1] whitespace-nowrap">
-                    {relTime(l.createdAt)}
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
+<table id="leads-table" className="w-full border-collapse text-xs">
+  <thead>
+    <tr style={{ background: 'linear-gradient(135deg, #FAF8F6 0%, #F5F3F0 100%)' }}>
+      {['Customer','Phone','Lead Type','Collection','Status','Created'].map(h => (
+        <th
+          key={h}
+          className="text-left text-[10px] font-bold text-[#9B9590] uppercase tracking-widest pb-2.5 pt-3 px-4 border-b border-[#EEEBE6] whitespace-nowrap"
+        >
+          {h}
+        </th>
+      ))}
+    </tr>
+  </thead>
+
+  <tbody>
+    {filtered.length === 0 ? (
+      <tr>
+        <td colSpan={6} className="text-center py-10 text-[#B0A9A1] text-[13px]">
+          <div className="flex flex-col items-center gap-2">
+            <span className="text-2xl opacity-30">🎯</span>
+            No leads found
+          </div>
+        </td>
+      </tr>
+    ) : (
+      filtered.map((l, i) => (
+        <tr
+          key={l.id}
+          className="table-row-hover border-b border-[#F4F1ED] last:border-0"
+        >
+          <td className="py-3 px-4">
+            <div className="flex items-center gap-2.5">
+              <div
+                className="w-8 h-8 rounded-xl flex items-center justify-center text-[11px] font-bold flex-shrink-0"
+                style={{
+                  background: AVATAR_COLORS[i % AVATAR_COLORS.length][0],
+                  color: AVATAR_COLORS[i % AVATAR_COLORS.length][1],
+                }}
+              >
+                {initials(l.customerName || l.phone)}
+              </div>
+              <span className="text-[13px] font-semibold text-[#1A1713] whitespace-nowrap">
+                {l.customerName || 'Unknown'}
+              </span>
+            </div>
+          </td>
+
+          <td className="py-3 px-4 font-mono text-[11px] text-[#6B6560] whitespace-nowrap">
+            +{l.phone}
+          </td>
+
+          <td className="py-3 px-4">
+            <TypePill type={l.leadType} />
+          </td>
+
+          <td className="py-3 px-4 text-[12px] text-[#6B6560]">
+            {l.selectedCollection ?? '—'}
+          </td>
+
+          <td className="py-3 px-4">
+            <StatusPill status={l.status} />
+          </td>
+
+          <td className="py-3 px-4 text-[12px] text-[#B0A9A1] whitespace-nowrap">
+            {relTime(l.createdAt)}
+          </td>
+        </tr>
+      ))
+    )}
+  </tbody>
+</table>
 
       <div className="mt-3">
         <p className="text-[11px] text-[#B0A9A1] font-medium">
