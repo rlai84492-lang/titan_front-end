@@ -1,42 +1,44 @@
 import React from 'react'
-import { STEP_ORDER, STEP_LABELS, STEP_COLORS, getFunnelCounts } from '../mockData.js'
+import { useSelector } from 'react-redux'
+import { FLOW_STEPS, STEP_META } from '../mockData'
 
 export default function FlowFunnelOne({ sessions }) {
-  const counts = getFunnelCounts(sessions)
+  const activeFlow = useSelector(s => s.ui.activeFlow)
+  const steps = FLOW_STEPS[activeFlow] || []
+
+  const counts = {}
+  steps.forEach(step => {
+    counts[step] = sessions.filter(s => s.currentStep === step).length
+  })
   const max = Math.max(...Object.values(counts), 1)
 
   return (
     <div className="space-y-2.5">
-      {STEP_ORDER.map((step, i) => {
-        const n = counts[step]
+      {steps.map((step, i) => {
+        const m   = STEP_META[step] || { label: step, color: '#A49D94' }
+        const n   = counts[step] || 0
         const pct = Math.round((n / max) * 100)
-        const dropoff = i > 0 ? counts[STEP_ORDER[i-1]] - n : 0
-        const color = STEP_COLORS[step]
+        const drop = i > 0 ? (counts[steps[i - 1]] || 0) - n : 0
 
         return (
           <div key={step} className="flex items-center gap-3">
-            {/* Step label */}
-            <div className="text-xs text-[#A49D94] text-right flex-shrink-0" style={{ width: 96 }}>
-              {STEP_LABELS[step]}
+            <div className="text-[10px] text-[#A49D94] text-right flex-shrink-0" style={{ width: 110 }}>
+              {m.label}
             </div>
-
-            {/* Bar */}
-            <div className="flex-1 h-6 bg-[#F8F7F6] rounded-lg overflow-hidden relative">
+            <div className="flex-1 h-5 bg-[#F8F7F6] rounded-lg overflow-hidden">
               <div
                 className="funnel-fill h-full rounded-lg flex items-center"
-                style={{ width: `${pct}%`, background: color, opacity: 0.85 }}
+                style={{ width: `${pct}%`, background: m.color, opacity: 0.85 }}
               >
                 {n > 0 && (
-                  <span className="text-white text-[10px] font-bold pl-2.5 drop-shadow-sm">{n}</span>
+                  <span className="text-white text-[9px] font-bold pl-2 drop-shadow-sm">{n}</span>
                 )}
               </div>
             </div>
-
-            {/* Count + dropoff */}
-            <div className="flex-shrink-0 text-right" style={{ width: 52 }}>
-              <div className="text-xs font-semibold text-[#28241F]">{n}</div>
-              {dropoff > 0 && (
-                <div className="text-[10px] text-red-400">-{dropoff}</div>
+            <div className="flex-shrink-0 text-right" style={{ width: 44 }}>
+              <div className="text-[11px] font-semibold text-[#28241F]">{n}</div>
+              {drop > 0 && i > 0 && (
+                <div className="text-[9px] text-red-400">-{drop}</div>
               )}
             </div>
           </div>

@@ -9,6 +9,7 @@ import {
   Settings,
 } from 'lucide-react'
 import { initials } from '../mockData.js'
+import FlowSelector from './FlowSelector.jsx'
 
 export default function Topbar({
   pageTitle,
@@ -103,13 +104,18 @@ export default function Topbar({
 
         <p className="text-[11px] text-[#B0A9A1] font-medium">
           {lastRefresh
-            ? `Last updated: ${lastRefresh.toLocaleTimeString('en-IN', {
-                hour: '2-digit',
-                minute: '2-digit',
-              })}`
+           ? `Last updated: ${new Date(lastRefresh).toLocaleTimeString('en-IN', {
+    hour: '2-digit',
+    minute: '2-digit',
+  })}`
             : 'Syncing…'}
         </p>
       </div>
+
+{/* <div className="hidden lg:flex">
+  <FlowSelector />
+</div> */}
+
 
       <div className="relative hidden md:block">
         <Search

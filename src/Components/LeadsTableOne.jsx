@@ -1,108 +1,8 @@
-// import React, { useState } from 'react'
-// import { relTime, initials, avatarColor } from '../mockData.js'
-
-// const TYPE_STYLE = {
-//   CALLBACK:    { bg:'#EBF4FD', color:'#185FA5', label:'Callback'    },
-//   STORE_VISIT: { bg:'#E1F5EE', color:'#0F6E56', label:'Store visit' },
-//   WEBSITE:     { bg:'#EEEDFE', color:'#3C3489', label:'Website'     },
-// }
-// const STATUS_STYLE = {
-//   NEW:       { bg:'#FEF3CD', color:'#BA7517', label:'New'       },
-//   ASSIGNED:  { bg:'#EBF4FD', color:'#185FA5', label:'Assigned'  },
-//   CONTACTED: { bg:'#E1F5EE', color:'#0F6E56', label:'Contacted' },
-//   CONVERTED: { bg:'#D1FAE5', color:'#059669', label:'Converted' },
-//   LOST:      { bg:'#FEE2E2', color:'#991B1B', label:'Lost'      },
-// }
-
-// function Pill({ map, val }) {
-//   const s = map[val] || { bg:'#F8F7F6', color:'#A49D94', label: val }
-//   return (
-//     <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full whitespace-nowrap" style={{ background:s.bg, color:s.color }}>
-//       {s.label}
-//     </span>
-//   )
-// }
-
-// export default function LeadsTable({ leads }) {
-//   const [statusFilter, setStatusFilter] = useState('All')
-
-//   const filtered = statusFilter === 'All'
-//     ? leads
-//     : leads.filter(l => l.status === statusFilter)
-
-//   return (
-//     <div>
-//       <div className="flex gap-1.5 mb-4 flex-wrap">
-//         {['All','NEW','ASSIGNED','CONTACTED','CONVERTED','LOST'].map(f => {
-//           const count = f === 'All' ? leads.length : leads.filter(l => l.status === f).length
-//           return (
-//             <button
-//               key={f}
-//               onClick={() => setStatusFilter(f)}
-//               className={`text-[11px] px-3 py-1.5 rounded-full border font-medium transition-all ${
-//                 statusFilter === f
-//                   ? 'bg-[#E85A2B] border-[#E85A2B] text-white'
-//                   : 'border-[#DDD9D4] text-[#7D7670] hover:bg-[#F8F7F6]'
-//               }`}
-//             >
-//               {f === 'All' ? 'All' : STATUS_STYLE[f]?.label || f} ({count})
-//             </button>
-//           )
-//         })}
-//       </div>
-
-//       <div className="overflow-x-auto -mx-1">
-//         <table className="w-full text-[13px] border-collapse">
-//           <thead>
-//             <tr>
-//               {['Customer','Lead type','Collection','Style','Price range','Status','Created'].map(h => (
-//                 <th key={h} className="text-left text-[11px] font-semibold text-[#C4BEB6] uppercase tracking-wide pb-3 px-2 whitespace-nowrap">
-//                   {h}
-//                 </th>
-//               ))}
-//             </tr>
-//           </thead>
-//           <tbody>
-//             {filtered.length === 0 ? (
-//               <tr>
-//                 <td colSpan={7} className="text-center py-10 text-[#C4BEB6] text-sm">No leads found</td>
-//               </tr>
-//             ) : filtered.map(l => {
-//               const [bg, tc] = avatarColor(l.customerName)
-//               return (
-//                 <tr key={l.id} className="border-t border-[#F8F7F6] hover:bg-[#F8F7F6] cursor-pointer">
-//                   <td className="py-3 px-2">
-//                     <div className="flex items-center gap-2.5">
-//                       <div className="w-8 h-8 rounded-xl flex items-center justify-center text-xs font-semibold flex-shrink-0" style={{ background:bg, color:tc }}>
-//                         {initials(l.customerName)}
-//                       </div>
-//                       <div>
-//                         <div className="font-semibold text-[#28241F]">{l.customerName}</div>
-//                         <div className="text-[11px] text-[#A49D94] font-mono">+{l.phone}</div>
-//                       </div>
-//                     </div>
-//                   </td>
-//                   <td className="py-3 px-2"><Pill map={TYPE_STYLE} val={l.leadType} /></td>
-//                   <td className="py-3 px-2 text-[#7D7670]">{l.selectedCollection || '—'}</td>
-//                   <td className="py-3 px-2 text-[#7D7670] whitespace-nowrap">{l.selectedStyle ? l.selectedStyle.replace(/_/g,' ') : '—'}</td>
-//                   <td className="py-3 px-2 text-[#7D7670]">{l.priceRange || '—'}</td>
-//                   <td className="py-3 px-2"><Pill map={STATUS_STYLE} val={l.status} /></td>
-//                   <td className="py-3 px-2 text-[#A49D94] text-[12px] whitespace-nowrap">{relTime(l.createdAt)}</td>
-//                 </tr>
-//               )
-//             })}
-//           </tbody>
-//         </table>
-//       </div>
-//     </div>
-//   )
-// }
-
-
 import React, { useState, useMemo } from 'react'
+import { useSelector } from 'react-redux'
 import { Search } from 'lucide-react'
-import { relTime, initials } from '../mockData.js'
-import { ExportBar } from './CardOne.jsx'
+import { relTime, initials } from '../mockData'
+import { ExportBar } from './CardOne'
 
 const AVATAR_COLORS = [
   ['#FEF0EB','#E85A2B'], ['#EBF4FD','#378ADD'], ['#E1F5EE','#1D9E75'],
@@ -134,6 +34,7 @@ function TypePill({ type }) {
   )
 }
 
+
 function StatusPill({ status }) {
   const c = STATUS_CONFIG[status] || { bg:'#F5F3F0', text:'#6B6560', label: status }
   return (
@@ -148,19 +49,29 @@ function StatusPill({ status }) {
 }
 
 export default function LeadsTableOne({ leads = [] }) {
-  const [search, setSearch] = useState('')
+  const activeFlow = useSelector(s => s.ui.activeFlow)
+  const [search,     setSearch]     = useState('')
   const [typeFilter, setTypeFilter] = useState('All')
 
+  // Filter to current flow
+  const flowLeads = useMemo(() =>
+    leads.filter(l => !l.flow || l.flow === activeFlow)
+  , [leads, activeFlow])
+
   const filtered = useMemo(() => {
-    let data = leads
-    if (typeFilter !== 'All') data = data.filter(l => l.leadType === typeFilter)
-    if (search.trim())
-      data = data.filter(l =>
-        (l.customerName || '').toLowerCase().includes(search.toLowerCase()) ||
-        (l.phone || '').includes(search)
-      )
-    return data
-  }, [leads, typeFilter, search])
+    let d = flowLeads
+    if (typeFilter !== 'All') d = d.filter(l => l.leadType === typeFilter)
+    if (search.trim()) d = d.filter(l =>
+      (l.customerName || '').toLowerCase().includes(search.toLowerCase()) ||
+      (l.phone || '').includes(search)
+    )
+    return d
+  }, [flowLeads, typeFilter, search])
+
+  // Summary metrics
+  const totalLeads  = flowLeads.length
+  const callbacks   = flowLeads.filter(l => l.leadType === 'CALLBACK').length
+  const storeVisits = flowLeads.filter(l => l.leadType === 'STORE_VISIT').length
 
   const exportData = filtered.map(l => ({
     Name:       l.customerName || 'Unknown',
@@ -173,47 +84,46 @@ export default function LeadsTableOne({ leads = [] }) {
 
   return (
     <div>
+      {/* 3 Summary Cards */}
+      <div className="grid grid-cols-3 gap-3 mb-4">
+        {[
+          { label: 'Total Leads', value: totalLeads,  color: '#E85A2B', bg: '#FEF0EB' },
+          { label: 'Callback',    value: callbacks,   color: '#378ADD', bg: '#EBF4FD' },
+          { label: 'Store Visit', value: storeVisits, color: '#1D9E75', bg: '#E1F5EE' },
+        ].map(c => (
+          <div key={c.label} style={{ borderRadius: 10, padding: '10px 12px', background: c.bg, border: `1px solid ${c.color}22` }}>
+            <div style={{ fontSize: 22, fontWeight: 800, color: c.color, fontFamily: 'Sora,system-ui' }}>{c.value}</div>
+            <div style={{ fontSize: 10, color: c.color, opacity: 0.8, fontWeight: 600, marginTop: 2 }}>{c.label}</div>
+          </div>
+        ))}
+      </div>
+
       {/* Controls */}
       <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
         <div className="flex gap-1.5">
-          {['All','CALLBACK','STORE_VISIT','WEBSITE'].map(f => (
-            <button
-              key={f}
-              onClick={() => setTypeFilter(f)}
-              className={`text-[11px] font-semibold px-3 py-1.5 rounded-xl border transition-all duration-150 ${
-                typeFilter === f
-                  ? 'border-[#E85A2B] text-white'
-                  : 'border-[#EEEBE6] text-[#6B6560] hover:bg-[#FEF0EB]/50'
+          {['All','CALLBACK','STORE_VISIT'].map(f => (
+            <button key={f} onClick={() => setTypeFilter(f)}
+              className={`text-[10px] font-semibold px-3 py-1.5 rounded-xl border transition-all ${
+                typeFilter === f ? 'border-[#E85A2B] text-white' : 'border-[#EEEBE6] text-[#6B6560] hover:bg-[#FEF0EB]/50'
               }`}
-              style={typeFilter === f ? {
-                background: 'linear-gradient(135deg, #E85A2B, #FF7040)',
-                boxShadow: '0 2px 8px rgba(232,90,43,0.25)',
-              } : {}}
-            >
-              {f === 'All' ? 'All' : f === 'STORE_VISIT' ? 'Store Visit' : f.charAt(0) + f.slice(1).toLowerCase()}
+              style={typeFilter === f ? { background: 'linear-gradient(135deg,#E85A2B,#FF7040)' } : {}}>
+              {f === 'All' ? 'All' : f === 'STORE_VISIT' ? 'Store Visit' : 'Callback'}
             </button>
           ))}
         </div>
         <div className="flex items-center gap-2">
           <div className="relative">
             <Search size={12} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[#C4BEB6]" />
-            <input
-              value={search}
-              onChange={e => setSearch(e.target.value)}
+            <input value={search} onChange={e => setSearch(e.target.value)}
               placeholder="Search…"
-              className="pl-7 pr-3 py-1.5 text-[12px] bg-[#F5F3F0] border border-[#EEEBE6] rounded-xl outline-none focus:border-[#E85A2B] w-32 transition-all font-dm"
-            />
+              className="pl-7 pr-3 py-1.5 text-[11px] bg-[#F5F3F0] border border-[#EEEBE6] rounded-xl outline-none focus:border-[#E85A2B] w-32" />
           </div>
-          <ExportBar
-            tableId="leads-table"
-            title="Leads Report"
-            data={exportData}
-            filename="titan-leads"
-          />
+          <ExportBar tableId="leads-table" title="Leads Report" data={exportData} filename="titan-leads" />
         </div>
       </div>
 
-<table id="leads-table" className="w-full border-collapse text-xs">
+      {/* Table — same structure as your existing LeadsTableOne, unchanged */}
+  <table id="leads-table" className="w-full border-collapse text-xs">
   <thead>
     <tr style={{ background: 'linear-gradient(135deg, #FAF8F6 0%, #F5F3F0 100%)' }}>
       {['Customer','Phone','Lead Type','Collection','Status','Created'].map(h => (
@@ -285,12 +195,10 @@ export default function LeadsTableOne({ leads = [] }) {
   </tbody>
 </table>
 
-      <div className="mt-3">
-        <p className="text-[11px] text-[#B0A9A1] font-medium">
-          Showing <span className="text-[#6B6560] font-bold">{filtered.length}</span> of{' '}
-          <span className="text-[#6B6560] font-bold">{leads.length}</span> leads
-        </p>
-      </div>
+
+
+
+
     </div>
   )
 }

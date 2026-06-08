@@ -2,7 +2,7 @@ import { clearAuthStorage, getAuthToken } from "./authStorage"
 
 const API_BASE = (
   import.meta.env.VITE_API_BASE_URL ||
-  // "https://quack-freestyle-slashed.ngrok-free.dev"
+  // "https://sasquatch-hence-ferment.ngrok-free.dev"
   "http://40.80.81.142"
 ).trim()
 
@@ -75,6 +75,18 @@ export async function fetchSessions() {
   return authFetch("/api/bot-sessions")
 }
 
-export async function fetchLeads() {
-  return authFetch("/api/leads")
+export async function fetchLeads(page = 0, size = 500, flow = null) {
+  const params = new URLSearchParams({ page, size })
+  if (flow && flow !== 'all') params.append('flow', flow)
+  
+  const data = await authFetch(`/api/leads?${params}`)
+  
+  // ← paginated response se leads array nikalo
+  return Array.isArray(data) ? data : (data.leads || [])
+}
+
+// Your existing functions stay the same — just add this one:
+
+export async function fetchSessionsByFlow(flow) {
+  return authFetch(`/api/bot-sessions/flow/${flow}`)
 }
