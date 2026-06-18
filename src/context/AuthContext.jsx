@@ -12,9 +12,8 @@ const AuthContext = createContext(null)
 const TOKEN_KEY = 'titan_admin_token'
 const USER_KEY = 'titan_admin_user'
 
-const API_BASE =
-  import.meta.env.VITE_API_BASE_URL ||
-  'http://localhost:8081'
+// SAHI:
+const API_BASE = (import.meta.env.VITE_API_BASE_URL || '').trim()
 
 function readStoredUser() {
   const raw = localStorage.getItem(USER_KEY)
