@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setActiveFlow } from '../store/uiSlice'
-import { filterByFlow } from '../store/dashboardSlice'
+import { loadDashboard } from '../store/dashboardSlice'  // ← loadDashboard import
 import { FLOW_KEYS, FLOW_LABELS, FLOW_ICONS, FLOW_COLORS } from '../mockData'
 
 export default function FlowSelector() {
@@ -9,8 +9,9 @@ export default function FlowSelector() {
   const activeFlow = useSelector(s => s.ui.activeFlow)
 
   function handleFlowChange(flow) {
+    console.log("Clicked......",flow);
     dispatch(setActiveFlow(flow))
-    dispatch(filterByFlow(flow))
+    dispatch(loadDashboard(flow))  // ← API re-call with flow ✅
   }
 
   return (

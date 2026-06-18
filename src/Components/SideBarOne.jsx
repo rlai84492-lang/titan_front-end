@@ -13,6 +13,7 @@ const NAV = [
       { id:'overview',      label:'Overview',      icon: LayoutDashboard },
       { id:'conversations', label:'Conversations', icon: MessageSquare,  badge:'12' },
       { id:'leads',         label:'Leads',         icon: PhoneCall,      badge:'7'  },
+      // { key: 'logs', label: 'Logs', icon: '📋' }
     ],
   },
   {

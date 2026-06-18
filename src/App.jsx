@@ -13,12 +13,14 @@ import FlowSelector from './Components/FlowSelector'
 import OverviewPage      from './pages/OverviewPage'
 import ConversationsPage from './pages/ConversationsPage'
 import LeadsPage         from './pages/LeadsPage'
+import LogsPage from './pages/LogsPage'
 
 // ─────────────────────────────────────────────────────────────
 const PAGE_TITLES = {
   overview:      'Dashboard Overview',
   conversations: 'Conversations',
   leads:         'Leads & Follow-ups',
+  logs:          'Production Logs', 
   analytics:     'Analytics',
   campaigns:     'Campaign Manager',
   customers:     'Customers',
@@ -47,6 +49,7 @@ function PageRouter() {
     case 'overview':      return <OverviewPage />
     case 'conversations': return <ConversationsPage />
     case 'leads':         return <LeadsPage />
+    case 'logs':          return <LogsPage />        // ← YE ADD KARO
     case 'analytics':     return <ComingSoon label="Analytics" />
     case 'campaigns':     return <ComingSoon label="Campaign Manager" />
     case 'customers':     return <ComingSoon label="Customers" />
@@ -119,7 +122,7 @@ function Dashboard() {
         lastRefresh={lastRefresh ? new Date(lastRefresh) : null}
         sidebarW={sidebarW}
         user={user}
-        onLogout={logout}
+        onLogout={logout} when
       />
 
       {/* ③ Flow selector bar — below topbar */}

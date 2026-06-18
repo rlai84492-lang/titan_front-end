@@ -18,6 +18,7 @@ export default function OverviewPage() {
   const timeline  = useSelector(s => s.dashboard.timeline)
   const activeFlow = useSelector(s => s.ui.activeFlow)
 
+
   const isBday = activeFlow.includes('bday')
 
   const conv = {
@@ -90,25 +91,7 @@ export default function OverviewPage() {
         <MessagesChart data={hourly} />
       </CardOne>
 
-      {/* ── Conversations table ──────────────────────────────── */}
-      {/* <CardOne
-        title="Active Conversations"
-        subtitle="All sessions — filter by collection, brand, step"
-        icon="💬"
-        delay={200}
-        action={
-          <span className="flex items-center gap-1.5 text-[10px] px-2 py-1 rounded-full bg-green-50 text-green-600 font-semibold">
-            <span className="w-1.5 h-1.5 rounded-full bg-green-500 live-dot" />Live
-          </span>
-        }
-      >
-        <ConversationsTableOne sessions={sessions} />
-      </CardOne> */}
 
-      {/* ── Leads ────────────────────────────────────────────── */}
-      {/* <CardOne title="Lead Management" subtitle="Callbacks and store visits" icon="🎯" delay={250}>
-        <LeadsTableOne leads={leads} />
-      </CardOne> */}
 
       {/* ── Campaign + Collection ────────────────────────────── */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
