@@ -7,12 +7,12 @@ export default defineConfig({
     port: 5173,
     proxy: {
       '/api': {
-        target: 'http://localhost:8080',
+        target: 'http://localhost:8081',
         changeOrigin: true,
       },
     },
     allowedHosts: [
-      'quack-freestyle-slashed.ngrok-free.dev'
+      'sasquatch-hence-ferment.ngrok-free.dev'
     ]
   },
 })
