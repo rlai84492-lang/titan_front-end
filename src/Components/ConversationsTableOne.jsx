@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import { useUI } from '../context/UIContext'
 import { Search } from 'lucide-react'
 import StepBadge from './StepBadge'
 import { FLOW_STEPS, STEP_META, BRANDS, BRAND_KEYS, relTime, initials } from '../mockData'
@@ -12,8 +12,8 @@ const AVATAR_COLORS = [
 ]
 
 export default function ConversationsTableOne({ sessions = [] }) {
-  const activeFlow    = useSelector(s => s.ui.activeFlow)
-  const steps         = FLOW_STEPS[activeFlow] || []
+  const { activeFlow } = useUI()
+  const steps = FLOW_STEPS[activeFlow] || []
 
   const [collFilter,  setCollFilter]  = useState('All')
   const [brandFilter, setBrandFilter] = useState('All')
@@ -22,7 +22,6 @@ export default function ConversationsTableOne({ sessions = [] }) {
   const [currentPage, setCurrentPage] = useState(1)
   const [rowsPerPage, setRowsPerPage] = useState(10)
 
-  // Filter sessions to only this flow's steps
   const flowSessions = useMemo(() =>
     sessions.filter(s => steps.includes(s.currentStep))
   , [sessions, steps])
@@ -44,7 +43,7 @@ export default function ConversationsTableOne({ sessions = [] }) {
 
   useEffect(() => { setCurrentPage(1) }, [collFilter, brandFilter, stepFilter, search, rowsPerPage, activeFlow])
 
-  const totalPages   = Math.max(1, Math.ceil(filtered.length / rowsPerPage))
+  const totalPages    = Math.max(1, Math.ceil(filtered.length / rowsPerPage))
   const paginatedData = useMemo(() => {
     const start = (currentPage - 1) * rowsPerPage
     return filtered.slice(start, start + rowsPerPage)
@@ -62,77 +61,48 @@ export default function ConversationsTableOne({ sessions = [] }) {
 
   return (
     <div>
-      {/* Filters Row */}
+      {/* Filters */}
       <div className="flex flex-wrap items-center gap-2 mb-4">
-
-        {/* Collection filter */}
         <div className="flex items-center gap-1">
           <span className="text-[10px] font-bold text-[#A49D94] mr-1">Collection:</span>
-          {['All', 'MENS', 'WOMENS', 'COUPLES'].map(f => (
-            <button
-              key={f}
-              onClick={() => setCollFilter(f)}
+          {['All','MENS','WOMENS','COUPLES'].map(f => (
+            <button key={f} onClick={() => setCollFilter(f)}
               className={`text-[10px] font-semibold px-2.5 py-1 rounded-lg border transition-all ${
-                collFilter === f
-                  ? 'border-[#E85A2B] bg-[#E85A2B] text-white'
-                  : 'border-[#EEEBE6] text-[#6B6560] hover:bg-[#FEF0EB]/50'
-              }`}
-            >
+                collFilter === f ? 'border-[#E85A2B] bg-[#E85A2B] text-white' : 'border-[#EEEBE6] text-[#6B6560] hover:bg-[#FEF0EB]/50'
+              }`}>
               {f === 'All' ? 'All' : f.charAt(0) + f.slice(1).toLowerCase()}
             </button>
           ))}
         </div>
 
-        {/* Brand filter */}
         <div className="flex items-center gap-1">
           <span className="text-[10px] font-bold text-[#A49D94] mr-1">Brand:</span>
-          <select
-            value={brandFilter}
-            onChange={e => setBrandFilter(e.target.value)}
-            className="text-[10px] font-semibold px-2 py-1 rounded-lg border border-[#EEEBE6] text-[#6B6560] bg-white outline-none focus:border-[#E85A2B]"
-          >
+          <select value={brandFilter} onChange={e => setBrandFilter(e.target.value)}
+            className="text-[10px] font-semibold px-2 py-1 rounded-lg border border-[#EEEBE6] text-[#6B6560] bg-white outline-none focus:border-[#E85A2B]">
             <option value="All">All Brands</option>
-            {BRANDS.map((b, i) => (
-              <option key={b} value={BRAND_KEYS[i]}>{b}</option>
-            ))}
+            {BRANDS.map((b, i) => <option key={b} value={BRAND_KEYS[i]}>{b}</option>)}
           </select>
         </div>
 
-        {/* Step filter */}
         <div className="flex items-center gap-1">
           <span className="text-[10px] font-bold text-[#A49D94] mr-1">Step:</span>
-          <select
-            value={stepFilter}
-            onChange={e => setStepFilter(e.target.value)}
-            className="text-[10px] font-semibold px-2 py-1 rounded-lg border border-[#EEEBE6] text-[#6B6560] bg-white outline-none focus:border-[#E85A2B]"
-          >
+          <select value={stepFilter} onChange={e => setStepFilter(e.target.value)}
+            className="text-[10px] font-semibold px-2 py-1 rounded-lg border border-[#EEEBE6] text-[#6B6560] bg-white outline-none focus:border-[#E85A2B]">
             <option value="All">All Steps</option>
             {steps.map(step => (
-              <option key={step} value={step}>
-                {STEP_META[step]?.label || step}
-              </option>
+              <option key={step} value={step}>{STEP_META[step]?.label || step}</option>
             ))}
           </select>
         </div>
 
-        {/* Search */}
         <div className="relative ml-auto">
           <Search size={12} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-[#C4BEB6]" />
-          <input
-            value={search}
-            onChange={e => setSearch(e.target.value)}
+          <input value={search} onChange={e => setSearch(e.target.value)}
             placeholder="Search name / phone…"
-            className="pl-7 pr-3 py-1.5 text-[11px] bg-[#F5F3F0] border border-[#EEEBE6] rounded-xl outline-none focus:border-[#E85A2B] w-36 transition-all"
-          />
+            className="pl-7 pr-3 py-1.5 text-[11px] bg-[#F5F3F0] border border-[#EEEBE6] rounded-xl outline-none focus:border-[#E85A2B] w-36" />
         </div>
 
-        <ExportBar
-          tableId="conv-table"
-          title="Active Conversations"
-          data={exportData}
-          filename="titan-conversations"
-          compact
-        />
+        <ExportBar tableId="conv-table" title="Active Conversations" data={exportData} filename="titan-conversations" compact />
       </div>
 
       {/* Table */}
@@ -141,49 +111,38 @@ export default function ConversationsTableOne({ sessions = [] }) {
           <thead>
             <tr style={{ background: 'linear-gradient(135deg,#FAF8F6,#F5F3F0)' }}>
               {['Customer','Phone','Step','Collection','Brand','Last Activity'].map(h => (
-                <th key={h} className="text-left text-[9px] font-bold text-[#9B9590] uppercase tracking-widest pb-2.5 pt-3 px-4 border-b border-[#EEEBE6] whitespace-nowrap">
-                  {h}
-                </th>
+                <th key={h} className="text-left text-[9px] font-bold text-[#9B9590] uppercase tracking-widest pb-2.5 pt-3 px-4 border-b border-[#EEEBE6] whitespace-nowrap">{h}</th>
               ))}
             </tr>
           </thead>
           <tbody>
             {paginatedData.length === 0 ? (
-              <tr>
-                <td colSpan={6} className="text-center py-10 text-[#B0A9A1] text-[12px]">
-                  <div className="flex flex-col items-center gap-2">
-                    <span className="text-2xl opacity-30">💬</span>
-                    No conversations found
-                  </div>
-                </td>
-              </tr>
-            ) : (
-              paginatedData.map((s, i) => {
-                const realIndex = (currentPage - 1) * rowsPerPage + i
-                const [abg, atx] = AVATAR_COLORS[realIndex % AVATAR_COLORS.length]
-                return (
-                  <tr key={s.id} className="table-row-hover border-b border-[#F4F1ED] last:border-0">
-                    <td className="py-3 px-4">
-                      <div className="flex items-center gap-2.5">
-                        <div className="w-8 h-8 rounded-xl flex items-center justify-center text-[10px] font-bold flex-shrink-0"
-                          style={{ background: abg, color: atx }}>
-                          {initials(s.customerName)}
-                        </div>
-                        <div>
-                          <div className="text-[12px] font-semibold text-[#1A1713]">{s.customerName || 'Unknown'}</div>
-                          <div className="text-[9px] text-[#B0A9A1]">{s.isActive ? 'Active' : 'Inactive'}</div>
-                        </div>
+              <tr><td colSpan={6} className="text-center py-10 text-[#B0A9A1] text-[12px]">
+                <div className="flex flex-col items-center gap-2"><span className="text-2xl opacity-30">💬</span>No conversations found</div>
+              </td></tr>
+            ) : paginatedData.map((s, i) => {
+              const ri = (currentPage - 1) * rowsPerPage + i
+              const [abg, atx] = AVATAR_COLORS[ri % AVATAR_COLORS.length]
+              return (
+                <tr key={s.id} className="table-row-hover border-b border-[#F4F1ED] last:border-0">
+                  <td className="py-3 px-4">
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-8 h-8 rounded-xl flex items-center justify-center text-[10px] font-bold flex-shrink-0"
+                        style={{ background: abg, color: atx }}>{initials(s.customerName)}</div>
+                      <div>
+                        <div className="text-[12px] font-semibold text-[#1A1713]">{s.customerName || 'Unknown'}</div>
+                        <div className="text-[9px] text-[#B0A9A1]">{s.isActive ? 'Active' : 'Inactive'}</div>
                       </div>
-                    </td>
-                    <td className="py-3 px-4 font-mono text-[10px] text-[#6B6560]">+{s.phone}</td>
-                    <td className="py-3 px-4"><StepBadge step={s.currentStep} /></td>
-                    <td className="py-3 px-4 text-[11px] text-[#6B6560]">{s.selectedCollection || '—'}</td>
-                    <td className="py-3 px-4 text-[10px] text-[#6B6560]">{s.selectedBrand?.replace(/_/g, ' ') || '—'}</td>
-                    <td className="py-3 px-4 text-[11px] text-[#B0A9A1] whitespace-nowrap">{relTime(s.lastActivity)}</td>
-                  </tr>
-                )
-              })
-            )}
+                    </div>
+                  </td>
+                  <td className="py-3 px-4 font-mono text-[10px] text-[#6B6560]">+{s.phone}</td>
+                  <td className="py-3 px-4"><StepBadge step={s.currentStep} /></td>
+                  <td className="py-3 px-4 text-[11px] text-[#6B6560]">{s.selectedCollection || '—'}</td>
+                  <td className="py-3 px-4 text-[10px] text-[#6B6560]">{s.selectedBrand?.replace(/_/g, ' ') || '—'}</td>
+                  <td className="py-3 px-4 text-[11px] text-[#B0A9A1] whitespace-nowrap">{relTime(s.lastActivity)}</td>
+                </tr>
+              )
+            })}
           </tbody>
         </table>
       </div>
@@ -191,11 +150,7 @@ export default function ConversationsTableOne({ sessions = [] }) {
       {/* Pagination */}
       <div className="mt-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <p className="text-[10px] text-[#B0A9A1] font-medium">
-          Showing <b className="text-[#6B6560]">{Math.min((currentPage-1)*rowsPerPage+1, filtered.length)}</b>
-          {' '}to{' '}
-          <b className="text-[#6B6560]">{Math.min(currentPage*rowsPerPage, filtered.length)}</b>
-          {' '}of{' '}
-          <b className="text-[#6B6560]">{filtered.length}</b> conversations
+          Showing <b className="text-[#6B6560]">{Math.min((currentPage-1)*rowsPerPage+1, filtered.length)}</b> to <b className="text-[#6B6560]">{Math.min(currentPage*rowsPerPage, filtered.length)}</b> of <b className="text-[#6B6560]">{filtered.length}</b>
         </p>
         <div className="flex items-center gap-2">
           <select value={rowsPerPage} onChange={e => setRowsPerPage(Number(e.target.value))}
@@ -203,7 +158,7 @@ export default function ConversationsTableOne({ sessions = [] }) {
             {[5,10,20,50].map(n => <option key={n} value={n}>{n} / page</option>)}
           </select>
           <button onClick={() => setCurrentPage(p => Math.max(1, p-1))} disabled={currentPage===1}
-            className="h-7 px-2.5 rounded-lg text-[10px] font-bold border border-[#EEEBE6] text-[#6B6560] disabled:opacity-40 hover:border-[#E85A2B]/40">Prev</button>
+            className="h-7 px-2.5 rounded-lg text-[10px] font-bold border border-[#EEEBE6] text-[#6B6560] disabled:opacity-40">Prev</button>
           {Array.from({length: Math.min(totalPages,5)}, (_, i) => i+1).map(pg => (
             <button key={pg} onClick={() => setCurrentPage(pg)}
               className="w-7 h-7 rounded-lg text-[10px] font-bold border transition-all"
@@ -212,7 +167,7 @@ export default function ConversationsTableOne({ sessions = [] }) {
             </button>
           ))}
           <button onClick={() => setCurrentPage(p => Math.min(totalPages, p+1))} disabled={currentPage===totalPages}
-            className="h-7 px-2.5 rounded-lg text-[10px] font-bold border border-[#EEEBE6] text-[#6B6560] disabled:opacity-40 hover:border-[#E85A2B]/40">Next</button>
+            className="h-7 px-2.5 rounded-lg text-[10px] font-bold border border-[#EEEBE6] text-[#6B6560] disabled:opacity-40">Next</button>
         </div>
       </div>
     </div>

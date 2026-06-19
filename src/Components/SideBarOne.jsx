@@ -1,47 +1,82 @@
-
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   LayoutDashboard, MessageSquare, Users, PhoneCall, Store,
   BarChart2, Calendar, Settings, HelpCircle,
   ChevronRight, TrendingUp, BookOpen,
 } from 'lucide-react'
 
+// ── Nav config  (badge key = field name returned by /api/dashboard/counts)
 const NAV = [
   {
     group: 'OVERVIEW',
     items: [
-      { id:'overview',      label:'Overview',      icon: LayoutDashboard },
-      { id:'conversations', label:'Conversations', icon: MessageSquare,  badge:'12' },
-      { id:'leads',         label:'Leads',         icon: PhoneCall,      badge:'7'  },
-      // { key: 'logs', label: 'Logs', icon: '📋' }
+      { id: 'overview',      label: 'Overview',      icon: LayoutDashboard },
+      { id: 'conversations', label: 'Conversations', icon: MessageSquare,  badgeKey: 'conversations' },
+      { id: 'leads',         label: 'Leads',         icon: PhoneCall,      badgeKey: 'leads'         },
     ],
   },
   {
     group: 'ANALYTICS',
     items: [
-      { id:'analytics',   label:'Analytics',   icon: BarChart2  },
-      { id:'campaigns',   label:'Campaigns',   icon: Calendar   },
-      { id:'performance', label:'Performance', icon: TrendingUp },
+      { id: 'analytics',   label: 'Analytics',   icon: BarChart2  },
+      { id: 'campaigns',   label: 'Campaigns',   icon: Calendar   },
+      { id: 'performance', label: 'Performance', icon: TrendingUp },
     ],
   },
   {
     group: 'MANAGEMENT',
     items: [
-      { id:'customers', label:'Customers', icon: Users    },
-      { id:'stores',    label:'Stores',    icon: Store    },
-      { id:'catalogue', label:'Catalogue', icon: BookOpen },
+      { id: 'customers', label: 'Customers', icon: Users    },
+      { id: 'stores',    label: 'Stores',    icon: Store    },
+      { id: 'catalogue', label: 'Catalogue', icon: BookOpen },
     ],
   },
   {
     group: 'SYSTEM',
     items: [
-      { id:'settings', label:'Settings', icon: Settings    },
-      { id:'help',     label:'Help',     icon: HelpCircle  },
+      { id: 'settings', label: 'Settings', icon: Settings   },
+      { id: 'help',     label: 'Help',     icon: HelpCircle },
     ],
   },
 ]
 
 export default function SideBarOne({ active, setActive, collapsed, setCollapsed }) {
+
+  // ── counts fetched from backend ───────────────────────────────
+  const [counts, setCounts] = useState({})
+
+  useEffect(() => {
+    let cancelled = false
+
+    const fetchCounts = async () => {
+      try {
+        const res = await fetch('/api/dashboard/counts')
+        if (!res.ok) throw new Error('counts fetch failed')
+        const data = await res.json()
+        if (!cancelled) setCounts(data)
+      } catch (err) {
+        console.warn('SideBar counts fetch error:', err)
+      }
+    }
+
+    fetchCounts()                          // immediate first load
+    const timer = setInterval(fetchCounts, 30_000)  // refresh every 30 s
+
+    return () => {
+      cancelled = true
+      clearInterval(timer)
+    }
+  }, [])
+
+  // ── badge display helper ──────────────────────────────────────
+  const getBadge = (badgeKey) => {
+    if (!badgeKey) return null
+    const val = counts[badgeKey]
+    if (val === undefined || val === null) return null
+    return val > 999 ? '999+' : String(val)
+  }
+
+  // ─────────────────────────────────────────────────────────────
   return (
     <aside
       className="fixed top-0 left-0 h-screen flex flex-col z-40 overflow-hidden bg-white border-r border-[#EEEBE6]"
@@ -91,9 +126,12 @@ export default function SideBarOne({ active, setActive, collapsed, setCollapsed 
                 {section.group}
               </div>
             )}
+
             {section.items.map(item => {
               const Icon     = item.icon
               const isActive = active === item.id
+              const badge    = getBadge(item.badgeKey)   // ← dynamic
+
               return (
                 <button
                   key={item.id}
@@ -137,21 +175,32 @@ export default function SideBarOne({ active, setActive, collapsed, setCollapsed 
                       <span className="text-[13px] font-medium flex-1 whitespace-nowrap relative z-10">
                         {item.label}
                       </span>
-                      {item.badge && (
+
+                      {/* ── Dynamic badge ── */}
+                      {badge !== null && (
                         <span
-                          className="text-[10px] font-bold px-1.5 py-0.5 rounded-full relative z-10"
+                          className="text-[10px] font-bold px-1.5 py-0.5 rounded-full relative z-10 min-w-[20px] text-center"
                           style={isActive
                             ? { background: '#E85A2B', color: '#fff' }
                             : { background: '#F0EDE8', color: '#9B9590' }
                           }
                         >
-                          {item.badge}
+                          {badge}
                         </span>
                       )}
+
                       {isActive && (
                         <ChevronRight size={13} className="text-[#E85A2B] opacity-50 relative z-10" />
                       )}
                     </>
+                  )}
+
+                  {/* Collapsed tooltip badge (shown as dot if count > 0) */}
+                  {collapsed && badge !== null && Number(badge) > 0 && (
+                    <span
+                      className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full"
+                      style={{ background: '#E85A2B' }}
+                    />
                   )}
                 </button>
               )
@@ -197,4 +246,3 @@ export default function SideBarOne({ active, setActive, collapsed, setCollapsed 
     </aside>
   )
 }
-

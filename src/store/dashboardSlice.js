@@ -247,10 +247,19 @@ const dashboardSlice = createSlice({
         state.loading     = false
         state.lastRefresh = new Date().toISOString()
       })
-      .addCase(loadDashboard.pending, (state) => {
-        state.loading = true
-        state.error   = null
-      })
+      // .addCase(loadDashboard.pending, (state) => {
+      //   state.loading = true
+      //   state.error   = null
+      // })
+
+      .addCase(loadDashboard.pending, (state, action) => {
+  // ← Sirf tab loader dikhao jab pehli baar data load ho
+  // ← ya jab flow change ho (sessions empty honge)
+  if (state.sessions.length === 0) {
+    state.loading = true
+  }
+  state.error = null
+})
       .addCase(loadDashboard.rejected, (state, action) => {
         state.loading = false
         state.error   = action.payload
