@@ -1,5 +1,3 @@
-
-
 import React, { useState, useMemo } from 'react'
 import { useUI } from '../context/UIContext'
 import { Search } from 'lucide-react'

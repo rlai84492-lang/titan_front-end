@@ -123,13 +123,13 @@ export default function Topbar({
           className="absolute left-3 top-1/2 -translate-y-1/2 text-[#C4BEB6]"
         />
 
-        <input
+        {/* <input
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search users, leads…"
           className="pl-8 pr-4 py-2 text-[13px] bg-[#F5F3F0] border border-[#EEEBE6] rounded-xl w-48 outline-none focus:border-[#E85A2B] focus:ring-2 focus:ring-[#E85A2B]/10 placeholder-[#C4BEB6] transition-all duration-200 font-dm"
-        />
+        /> */}
       </div>
 
       <button

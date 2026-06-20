@@ -87,9 +87,9 @@ export default function ConversationsPage() {
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {[
           { icon: '💬', label: 'Total Sessions', value: sessions.length, accent: 'blue'   },
-          { icon: '🟢', label: 'Active Now',     value: active,          accent: 'green'  },
+          // { icon: '🟢', label: 'Active Now',     value: active,          accent: 'green'  },
           { icon: '✅', label: 'Completed',      value: completed,       accent: 'orange' },
-          { icon: '⏳', label: 'In Progress',    value: inProg,          accent: 'purple' },
+          // { icon: '⏳', label: 'In Progress',    value: inProg,          accent: 'purple' },
         ].map((m, i) => <MetricCardOne key={m.label} {...m} delay={i * 50} />)}
       </div>
 

@@ -170,40 +170,42 @@
 // }
 
 
+
+
 import React, { useState } from 'react'
 import { FileSpreadsheet, FileText, Loader2 } from 'lucide-react'
+import * as XLSX from 'xlsx'
 
 // ─── Export helpers ───────────────────────────────────────────────────────────
 
-// ── CSV/Excel — already poori "data" array use karta hai (sahi tha, same rakha) ──
-export function exportToCSV(data, filename = 'export') {
+/**
+ * ── EXCEL Export — REAL .xlsx (NOT CSV) ────────────────────────
+ * PEHLE: "exportToCSV" naam tha lekin Blob([csv], {type:'text/csv'})
+ *        banata tha — file .csv extension ke saath save hoti thi,
+ *        Excel nahi.
+ *
+ * AB: XLSX library (jaisa LeadsPage.jsx mein already use ho raha hai)
+ *     se asli .xlsx workbook banata hai.
+ */
+export function exportToExcel(data, filename = 'export') {
   if (!data || !data.length) return
+
+  const ws = XLSX.utils.json_to_sheet(data)
+
+  // Column widths — header text ke hisaab se auto-size
   const headers = Object.keys(data[0])
-  const rows = data.map(row =>
-    headers.map(h => {
-      const val = row[h] ?? ''
-      return typeof val === 'string' && val.includes(',')
-        ? `"${val}"`
-        : val
-    }).join(',')
-  )
-  const csv = [headers.join(','), ...rows].join('\n')
-  const blob = new Blob([csv], { type: 'text/csv' })
-  const url  = URL.createObjectURL(blob)
-  const a    = document.createElement('a')
-  a.href = url; a.download = `${filename}.csv`; a.click()
-  URL.revokeObjectURL(url)
+  ws['!cols'] = headers.map(h => ({ wch: Math.max(h.length + 4, 14) }))
+
+  const wb = XLSX.utils.book_new()
+  XLSX.utils.book_append_sheet(wb, ws, 'Data')
+  XLSX.writeFile(wb, `${filename}.xlsx`)
 }
 
 /**
- * ── PDF Export — FIX ────────────────────────────────────────────
- * PEHLE: document.getElementById(tableId).outerHTML copy karta tha
- *        → sirf DOM mein render hui (paginated/visible) rows aati thin,
- *          baaki saari rows (jaise 2000/30000 mein se 10/50) MISS ho jaati thin
- *
- * AB: poori "data" array se khud HTML <table> banata hai
- *     → chahe 30000 rows ho, SAARI PDF mein export hoti hain
- *     → DOM/pagination se koi farak nahi padta
+ * ── PDF Export — poori "data" array se khud HTML <table> banata hai ──
+ * Chahe 30000 rows ho, SAARI PDF mein export hoti hain — DOM/pagination
+ * se koi farak nahi padta (purana bug: DOM se outerHTML copy karta tha,
+ * sirf visible/paginated rows export hoti thin).
  */
 export function exportToPDF(data, title = 'Report') {
   if (!data || !data.length) return
@@ -256,22 +258,20 @@ export function exportToPDF(data, title = 'Report') {
 
 // ─── ExportBar — ab loading state ke saath, heavy export ke liye safe ─────────
 export function ExportBar({ tableId, title, data, filename, compact = false }) {
-  // ← NAYA: alag-alag loading state, taaki user ko pata chale export chal raha hai
-  //   (especially jab data 1000s/10000s rows ka ho — PDF/CSV banane mein time lagta hai)
-  const [exportingCsv, setExportingCsv] = useState(false)
-  const [exportingPdf, setExportingPdf] = useState(false)
+  // ← alag-alag loading state, taaki user ko pata chale export chal raha hai
+  const [exportingExcel, setExportingExcel] = useState(false)
+  const [exportingPdf,   setExportingPdf]   = useState(false)
 
-  const handleCsv = async () => {
-    if (exportingCsv || !data?.length) return
-    setExportingCsv(true)
+  const handleExcel = async () => {
+    if (exportingExcel || !data?.length) return
+    setExportingExcel(true)
     try {
       // setTimeout se ek frame milta hai spinner render hone ke liye,
-      // warna heavy CSV generation synchronous hone se UI freeze ho jaata
-      // aur spinner kabhi dikhta hi nahi
+      // warna heavy Excel generation synchronous hone se UI freeze ho jaata
       await new Promise(resolve => setTimeout(resolve, 50))
-      exportToCSV(data, filename)
+      exportToExcel(data, filename)
     } finally {
-      setExportingCsv(false)
+      setExportingExcel(false)
     }
   }
 
@@ -280,7 +280,7 @@ export function ExportBar({ tableId, title, data, filename, compact = false }) {
     setExportingPdf(true)
     try {
       await new Promise(resolve => setTimeout(resolve, 50))
-      exportToPDF(data, title)   // ← AB "data" array pass hota hai, tableId nahi
+      exportToPDF(data, title)
     } finally {
       setExportingPdf(false)
     }
@@ -289,8 +289,8 @@ export function ExportBar({ tableId, title, data, filename, compact = false }) {
   return (
     <div className={`flex items-center gap-1.5 ${compact ? '' : ''}`}>
       <button
-        onClick={handleCsv}
-        disabled={exportingCsv || !data?.length}
+        onClick={handleExcel}
+        disabled={exportingExcel || !data?.length}
         className=" group flex items-center gap-2
     px-3.5 py-2 rounded-xl
     bg-emerald-600
@@ -304,13 +304,13 @@ export function ExportBar({ tableId, title, data, filename, compact = false }) {
     disabled:opacity-60 disabled:cursor-not-allowed disabled:translate-y-0
     "
       >
-        {exportingCsv
+        {exportingExcel
           ? <Loader2 size={13} className="animate-spin" />
           : <FileSpreadsheet size={13} />
         }
-        {!compact && (exportingCsv ? 'Exporting…' : 'Excel')}
+        {!compact && (exportingExcel ? 'Exporting…' : 'Excel')}
       </button>
-      <button
+      {/* <button
         onClick={handlePdf}
         disabled={exportingPdf || !data?.length}
         className="   
@@ -332,7 +332,7 @@ export function ExportBar({ tableId, title, data, filename, compact = false }) {
           : <FileText size={13} />
         }
         {!compact && (exportingPdf ? 'Exporting…' : 'PDF')}
-      </button>
+      </button> */}
     </div>
   )
 }
