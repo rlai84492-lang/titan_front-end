@@ -115,7 +115,7 @@ confirmed: sessions.filter(s =>
       {/* ── 8 Campaign Metric Tiles ─── */}
       <div className="grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-8 gap-3">
         {[
-          { label: 'Messages Sent',        value: metrics.messagesSent,               accent: 'blue',   icon: '📤' },
+          { label: 'Campaign Sent',        value: metrics.messagesSent,               accent: 'blue',   icon: '📤' },
           { label: 'Delivery Rate',         value: `${metrics.deliveryRate  ?? 0}%`,  accent: 'green',  icon: '📬' },
           { label: 'Open Rate',             value: `${metrics.openRate      ?? 0}%`,  accent: 'teal',   icon: '📖' },
           { label: 'Click Rate',            value: `${metrics.clickRate     ?? 0}%`,  accent: 'purple', icon: '👆' },
@@ -133,10 +133,10 @@ confirmed: sessions.filter(s =>
         </h2>
         <div className="grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-8 gap-3">
           {[
-            { label: 'Active Sessions',                                        value: conv.activeSessions,           color: '#378ADD', bg: '#EBF4FD' },
+            // { label: 'Active Sessions',                                        value: conv.activeSessions,           color: '#378ADD', bg: '#EBF4FD' },
             { label: isBday ? 'Birthday Confirmed' : 'Anniversary Confirmed',  value: conv.confirmed,                color: '#E85A2B', bg: '#FEF0EB' },
             { label: 'Entered Discovery',                                       value: conv.enteredDiscovery,         color: '#7F77DD', bg: '#EEEDFE' },
-            { label: "Men's / Women's",                                         value: `${conv.mens}/${conv.womens}`, color: '#D4537E', bg: '#FCEEF4' },
+            // { label: "Men's / Women's",                                         value: `${conv.mens}/${conv.womens}`, color: '#D4537E', bg: '#FCEEF4' },
             { label: 'Carousel Reached',                                        value: conv.carouselReached,          color: '#1D9E75', bg: '#E1F5EE' },
             { label: 'Catalogue Sent',                                          value: conv.catalogueSent,            color: '#0F6E56', bg: '#E0F2F1' },
             { label: isBday ? 'Birthday Offer' : 'Anniv Offer',                value: conv.offerTapped,              color: '#E09A1A', bg: '#FEF3CD' },
