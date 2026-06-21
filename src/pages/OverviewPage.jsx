@@ -84,6 +84,8 @@ function PremiumLoader({ activeFlow }) {
 // ── Main Overview ─────────────────────────────────────────────
 export default function OverviewPage() {
   const { sessions, leads, metrics, hourly, campData, collData, timeline, loading } = useDashboard()
+
+  console.log(metrics  , "fdxgcvh")
   const { activeFlow } = useUI()
 
   if (loading) return <PremiumLoader activeFlow={activeFlow} />
@@ -113,21 +115,21 @@ confirmed: sessions.filter(s =>
     <div className="space-y-5">
 
       {/* ── 8 Campaign Metric Tiles ─── */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-8 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-5 gap-3">
         {[
-          { label: 'Campaign Sent',        value: metrics.messagesSent,               accent: 'blue',   icon: '📤' },
+          { label: 'Message Sent',        value: metrics.messagesSent,               accent: 'blue',   icon: '📤' },
           { label: 'Delivery Rate',         value: `${metrics.deliveryRate  ?? 0}%`,  accent: 'green',  icon: '📬' },
           { label: 'Open Rate',             value: `${metrics.openRate      ?? 0}%`,  accent: 'teal',   icon: '📖' },
           { label: 'Click Rate',            value: `${metrics.clickRate     ?? 0}%`,  accent: 'purple', icon: '👆' },
-          { label: 'Callback Requests',     value: metrics.callbackRequests,           accent: 'orange', icon: '📞' },
-          { label: 'Store Visit Requests',  value: metrics.storeVisitRequests,         accent: 'pink',   icon: '🏪' },
-          { label: 'Catalogue Views',       value: metrics.catalogueViews,             accent: 'indigo', icon: '📋' },
-          { label: 'Completion Rate',       value: `${metrics.completionRate ?? 0}%`, accent: 'amber',  icon: '✅' },
+          // { label: 'Callback Requests',     value: metrics.callbackRequests,           accent: 'orange', icon: '📞' },
+          // { label: 'Store Visit Requests',  value: metrics.storeVisitRequests,         accent: 'pink',   icon: '🏪' },
+          // { label: 'Conversion Rate',       value: metrics.conversionRate,             accent: 'indigo', icon: '📋' },
+          { label: 'Completion Rate',       value: `${metrics.completedFlows ?? 0}%`, accent: 'amber',  icon: '✅' },
         ].map((m, i) => <MetricCardOne key={m.label} {...m} delay={i * 40} />)}
       </div>
 
       {/* ── 8 Conversation Metric Tiles ─── */}
-      <div>
+      {/* <div>
         <h2 className="font-sora font-semibold text-[11px] text-[#A49D94] uppercase tracking-widest mb-3">
           Conversation Metrics
         </h2>
@@ -148,7 +150,7 @@ confirmed: sessions.filter(s =>
             </div>
           ))}
         </div>
-      </div>
+      </div> */}
 
       {/* ── Funnel + Activity ─── */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">

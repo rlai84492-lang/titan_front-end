@@ -1,175 +1,7 @@
-// // import React, { useEffect, useCallback } from 'react'
-// // import { Provider, useDispatch, useSelector } from 'react-redux'
-// // import store from './store'
-// // import { loadDashboard, filterByFlow } from './store/dashboardSlice'
-// // import { setActivePage, toggleSidebar } from './store/uiSlice'
-// // import { useAuth } from './context/AuthContext'
-// // import LoginPageOne from './Components/LoginPage/Components/LoginPageOne'
-// // import SideBarOne from './Components/SideBarOne'
-// // import TopBarOne from './Components/TopBarOne'
-// // import FlowSelector from './Components/FlowSelector'
-
-// // // ── Pages ─────────────────────────────────────────────────────
-// // import OverviewPage      from './pages/OverviewPage'
-// // import ConversationsPage from './pages/ConversationsPage'
-// // import LeadsPage         from './pages/LeadsPage'
-// // import LogsPage from './pages/LogsPage'
-
-// // // ─────────────────────────────────────────────────────────────
-// // const PAGE_TITLES = {
-// //   overview:      'Dashboard Overview',
-// //   conversations: 'Conversations',
-// //   leads:         'Leads & Follow-ups',
-// //   logs:          'Production Logs', 
-// //   analytics:     'Analytics',
-// //   campaigns:     'Campaign Manager',
-// //   customers:     'Customers',
-// //   stores:        'Stores',
-// //   settings:      'Settings',
-// //   help:          'Help & Support',
-// // }
-
-// // // ── Placeholder for unbuilt pages ─────────────────────────────
-// // function ComingSoon({ label }) {
-// //   return (
-// //     <div className="flex flex-col items-center justify-center py-28 text-center">
-// //       <div className="text-5xl mb-4">🚧</div>
-// //       <div className="font-sora font-semibold text-[#28241F] text-lg mb-2">{label}</div>
-// //       <div className="text-[#A49D94] text-sm max-w-xs">
-// //         Connect your Spring Boot APIs to unlock this section.
-// //       </div>
-// //     </div>
-// //   )
-// // }
-
-// // // ── Page router ───────────────────────────────────────────────
-// // function PageRouter() {
-// //   const activePage = useSelector(s => s.ui.activePage)
-// //   switch (activePage) {
-// //     case 'overview':      return <OverviewPage />
-// //     case 'conversations': return <ConversationsPage />
-// //     case 'leads':         return <LeadsPage />
-// //     case 'logs':          return <LogsPage />        // ← YE ADD KARO
-// //     case 'analytics':     return <ComingSoon label="Analytics" />
-// //     case 'campaigns':     return <ComingSoon label="Campaign Manager" />
-// //     case 'customers':     return <ComingSoon label="Customers" />
-// //     case 'stores':        return <ComingSoon label="Stores" />
-// //     case 'settings':      return <ComingSoon label="Settings" />
-// //     case 'help':          return <ComingSoon label="Help & Support" />
-// //     default:              return <OverviewPage />
-// //   }
-// // }
-
-// // // ── Dashboard layout ──────────────────────────────────────────
-// // function Dashboard() {
-// //   const dispatch     = useDispatch()
-// //   const activePage   = useSelector(s => s.ui.activePage)
-// //   const activeFlow   = useSelector(s => s.ui.activeFlow)
-// //   const collapsed    = useSelector(s => s.ui.sidebarCollapsed)
-// //   const lastRefresh  = useSelector(s => s.dashboard.lastRefresh)
-// //   const loading      = useSelector(s => s.dashboard.loading)
-// //   const { user, isAuthenticated, authLoading, logout } = useAuth()
-
-// //   const sidebarW = collapsed ? '68px' : '240px'
-
-// //   const refresh = useCallback(async () => {
-// //     const result = await dispatch(loadDashboard())
-// //     if (result.meta.requestStatus === 'fulfilled') {
-// //       dispatch(filterByFlow(store.getState().ui.activeFlow))
-// //     }
-// //   }, [dispatch])
-
-// //   // Initial load + 30s auto-refresh
-// //   useEffect(() => {
-// //     refresh()
-// //     const id = setInterval(refresh, 30_000)
-// //     return () => clearInterval(id)
-// //   }, [refresh])
-
-// //   // Re-filter when flow tab changes
-// //   useEffect(() => {
-// //     dispatch(filterByFlow(activeFlow))
-// //   }, [activeFlow, dispatch])
-
-// //   if (authLoading) {
-// //     return (
-// //       <div className="min-h-screen bg-[#F8F7F6] flex items-center justify-center">
-// //         <div className="bg-white border border-[#EFEDEA] shadow rounded-2xl px-6 py-4 text-sm text-[#A49D94]">
-// //           Checking session…
-// //         </div>
-// //       </div>
-// //     )
-// //   }
-
-// //   if (!isAuthenticated) return <LoginPageOne />
-
-// //   return (
-// //     <div className="min-h-screen bg-[#F8F7F6]">
-
-// //       {/* ① Sidebar */}
-// //       <SideBarOne
-// //         active={activePage}
-// //         setActive={p => dispatch(setActivePage(p))}
-// //         collapsed={collapsed}
-// //         setCollapsed={() => dispatch(toggleSidebar())}
-// //       />
-
-// //       {/* ② Topbar */}
-// //       <TopBarOne
-// //         pageTitle={PAGE_TITLES[activePage] || 'Dashboard'}
-// //         onRefresh={refresh}
-// //         loading={loading}
-// //         lastRefresh={lastRefresh ? new Date(lastRefresh) : null}
-// //         sidebarW={sidebarW}
-// //         user={user}
-// //         onLogout={logout} when
-// //       />
-
-// //       {/* ③ Flow selector bar — below topbar */}
-// //       <div
-// //         className="fixed top-16 right-0 z-20 flex items-center px-4 py-2 bg-white border-b border-[#EEEBE6]"
-// //         style={{
-// //           left: sidebarW,
-// //           transition: 'left 0.28s cubic-bezier(0.4,0,0.2,1)',
-// //           boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
-// //         }}
-// //       >
-// //         <FlowSelector />
-// //       </div>
-
-// //       {/* ④ Main content */}
-// //       <main
-// //         className="pt-28 min-h-screen"
-// //         style={{
-// //           marginLeft: sidebarW,
-// //           transition: 'margin-left 0.25s cubic-bezier(0.4,0,0.2,1)',
-// //         }}
-// //       >
-// //         <div className="p-4 max-w-[1600px]">
-// //           <PageRouter />
-// //         </div>
-// //       </main>
-
-// //     </div>
-// //   )
-// // }
-
-// // // ── Root — wraps everything in Redux Provider ─────────────────
-// // export default function App() {
-// //   return (
-// //     <Provider store={store}>
-// //       <Dashboard />
-// //     </Provider>
-// //   )
-// // }
-
-
-// import React, { useEffect, useCallback, useState } from 'react'
-// import { Provider, useDispatch, useSelector } from 'react-redux'
-// import store from './store'
-// import { loadDashboard } from './store/dashboardSlice'
-// import { setActivePage, setActiveFlow, toggleSidebar } from './store/uiSlice'
+// import React, { useEffect, useCallback } from 'react'
 // import { useAuth } from './context/AuthContext'
+// import { useDashboard } from './context/DashboardContext'
+// import { useUI } from './context/UIContext'
 // import LoginPageOne from './Components/LoginPage/Components/LoginPageOne'
 // import SideBarOne from './Components/SideBarOne'
 // import TopBarOne from './Components/TopBarOne'
@@ -180,14 +12,16 @@
 // import LeadsPage         from './pages/LeadsPage'
 // import LogsPage          from './pages/LogsPage'
 
-// // ── Date Range Context ────────────────────────────────────────
-// export const DateRangeContext = React.createContext(null)
+// import DobRevisionsPage from './pages/DobRevisionsPage'
+
 
 // const PAGE_TITLES = {
 //   overview:      'Dashboard Overview',
 //   conversations: 'Conversations',
 //   leads:         'Leads & Follow-ups',
 //   logs:          'Production Logs',
+//   dobRevisions: 'DOB / Date Revisions',
+
 //   analytics:     'Analytics',
 //   campaigns:     'Campaign Manager',
 //   customers:     'Customers',
@@ -208,13 +42,14 @@
 //   )
 // }
 
-// function PageRouter() {
-//   const activePage = useSelector(s => s.ui.activePage)
+// function PageRouter({ activePage }) {
 //   switch (activePage) {
 //     case 'overview':      return <OverviewPage />
 //     case 'conversations': return <ConversationsPage />
 //     case 'leads':         return <LeadsPage />
 //     case 'logs':          return <LogsPage />
+//     case 'dobRevisions': return <DobRevisionsPage />
+
 //     case 'analytics':     return <ComingSoon label="Analytics" />
 //     case 'campaigns':     return <ComingSoon label="Campaign Manager" />
 //     case 'customers':     return <ComingSoon label="Customers" />
@@ -225,27 +60,40 @@
 //   }
 // }
 
-// // ── Date Range Picker ─────────────────────────────────────────
+// // ── Date Range Picker — Context se judi hai (global) ────────────
 // const DATE_PRESETS = [
-//   { label: 'Today',    value: 'today'  },
-//   { label: '7 Days',   value: '7days'  },
-//   { label: '30 Days',  value: '30days' },
-//   { label: 'Custom',   value: 'custom' },
+//   { label: 'Today',   value: 'today'  },
+//   { label: '7 Days',  value: '7days'  },
+//   { label: '30 Days', value: '30days' },
+//   { label: 'Custom',  value: 'custom' },
 // ]
 
-// const FLOW_COLORS = {
-//   bday_t10:  '#3B82F6',
-//   bday_t0:   '#EF4444',
-//   anniv_t10: '#A855F7',
-//   anniv_t0:  '#EC4899',
-// }
+// function DateRangePicker() {
+//   const {
+//     dateRange, setDateRange,
+//     customStart, setCustomStart,
+//     customEnd, setCustomEnd,
+//     loadDashboard,
+//   } = useDashboard()
+//   const { activeFlow } = useUI()
 
-// function DateRangePicker({ dateRange, setDateRange, customStart, setCustomStart, customEnd, setCustomEnd }) {
-//   const [showCustom, setShowCustom] = useState(false)
+//   const [showCustom, setShowCustom] = React.useState(dateRange === 'custom')
 
 //   function handlePreset(val) {
+//     console.log('%c[DateRange] Preset changed →', 'color:#A855F7;font-weight:bold', val)
 //     setDateRange(val)
 //     setShowCustom(val === 'custom')
+
+//     // Custom select hone par turant call mat karo — start/end date chahiye pehle
+//     if (val !== 'custom') {
+//       loadDashboard(activeFlow, { dateRange: val })
+//     }
+//   }
+
+//   function applyCustomRange() {
+//     if (!customStart || !customEnd) return
+//     console.log('%c[DateRange] Custom range applied →', 'color:#A855F7;font-weight:bold', { customStart, customEnd })
+//     loadDashboard(activeFlow, { dateRange: 'custom', customStart, customEnd })
 //   }
 
 //   return (
@@ -269,67 +117,57 @@
 //       {showCustom && (
 //         <div className="flex items-center gap-2">
 //           <input
-//             type="date"
-//             value={customStart}
+//             type="date" value={customStart}
 //             onChange={e => setCustomStart(e.target.value)}
 //             className="text-[11px] border border-[#EEEBE6] rounded-lg px-2 py-1 outline-none focus:border-[#E85A2B]"
 //           />
 //           <span className="text-[11px] text-gray-400">to</span>
 //           <input
-//             type="date"
-//             value={customEnd}
+//             type="date" value={customEnd}
 //             onChange={e => setCustomEnd(e.target.value)}
 //             className="text-[11px] border border-[#EEEBE6] rounded-lg px-2 py-1 outline-none focus:border-[#E85A2B]"
 //           />
+//           <button
+//             onClick={applyCustomRange}
+//             disabled={!customStart || !customEnd}
+//             className="px-3 py-1 rounded-lg text-[11px] font-bold text-white disabled:opacity-40 transition-all"
+//             style={{ background: 'linear-gradient(135deg,#E85A2B,#FF7040)' }}
+//           >
+//             Apply
+//           </button>
 //         </div>
 //       )}
 //     </div>
 //   )
 // }
 
-// // ── Dashboard layout ──────────────────────────────────────────
+// // ── Dashboard Layout ──────────────────────────────────────────
 // function Dashboard() {
-//   const dispatch    = useDispatch()
-//   const activePage  = useSelector(s => s.ui.activePage)
-//   const activeFlow  = useSelector(s => s.ui.activeFlow)
-//   const collapsed   = useSelector(s => s.ui.sidebarCollapsed)
-//   const lastRefresh = useSelector(s => s.dashboard.lastRefresh)
-//   const loading     = useSelector(s => s.dashboard.loading)
-//   const sessions    = useSelector(s => s.dashboard.sessions)
-//   const leads       = useSelector(s => s.dashboard.leads)
 //   const { user, isAuthenticated, authLoading, logout } = useAuth()
+//   const { sessions, leads, loading, lastRefresh, loadDashboard, dateRange, customStart, customEnd } = useDashboard()
+//   const { activePage, setActivePage, activeFlow, sidebarCollapsed, toggleSidebar } = useUI()
 
-//   // ── Date range state ─────────────────────────────────────────
-//   const [dateRange,    setDateRange]    = useState('today')
-//   const [customStart,  setCustomStart]  = useState('')
-//   const [customEnd,    setCustomEnd]    = useState('')
+//   const sidebarW = sidebarCollapsed ? '68px' : '240px'
 
-//   const sidebarW = collapsed ? '68px' : '240px'
-
-//   // ── Load dashboard when flow changes ─────────────────────────
 //   const refresh = useCallback(() => {
-//     dispatch(loadDashboard(activeFlow))
-//   }, [dispatch, activeFlow])
+//     console.log('%c[App] Manual refresh clicked', 'color:#378ADD;font-weight:bold')
+//     loadDashboard(activeFlow, { dateRange, customStart, customEnd })
+//   }, [loadDashboard, activeFlow, dateRange, customStart, customEnd])
 
-//   // Initial load
+//   // ── Initial load — page pehli baar khulte hi ───────────────────
 //   useEffect(() => {
-//     dispatch(loadDashboard(activeFlow))
+//     console.log('%c[App] Initial mount — loading default flow:', 'color:#1D9E75;font-weight:bold', activeFlow)
+//     loadDashboard(activeFlow, { dateRange, customStart, customEnd })
 //   }, []) // eslint-disable-line
 
-//   // When flow tab changes → reload
+//   // ── Flow tab change → reload (date range bhi respect hoga) ─────
 //   useEffect(() => {
-//     dispatch(loadDashboard(activeFlow))
-//   }, [activeFlow, dispatch])
+//     console.log('%c[App] Tab clicked → reloading for flow:', 'color:#E85A2B;font-weight:bold', activeFlow)
+//     loadDashboard(activeFlow, { dateRange, customStart, customEnd })
+//   }, [activeFlow]) // eslint-disable-line
 
-//   // Auto refresh every 30s
-//   useEffect(() => {
-//     const id = setInterval(() => {
-//       dispatch(loadDashboard(activeFlow))
-//     }, 30_000)
-//     return () => clearInterval(id)
-//   }, [activeFlow, dispatch])
 
-//   // Dynamic sidebar counts
+
 //   const conversationsCount = sessions.length
 //   const leadsCount         = leads.length
 
@@ -346,76 +184,62 @@
 //   if (!isAuthenticated) return <LoginPageOne />
 
 //   return (
-//     <DateRangeContext.Provider value={{ dateRange, customStart, customEnd }}>
-//       <div className="min-h-screen bg-[#F8F7F6]">
+//     <div className="min-h-screen bg-[#F8F7F6]">
 
-//         {/* ① Sidebar */}
-//         <SideBarOne
-//           active={activePage}
-//           setActive={p => dispatch(setActivePage(p))}
-//           collapsed={collapsed}
-//           setCollapsed={() => dispatch(toggleSidebar())}
-//           conversationsCount={conversationsCount}
-//           leadsCount={leadsCount}
-//         />
+//       {/* ① Sidebar */}
+//       <SideBarOne
+//         active={activePage}
+//         setActive={setActivePage}
+//         collapsed={sidebarCollapsed}
+//         setCollapsed={toggleSidebar}
+//         conversationsCount={conversationsCount}
+//         leadsCount={leadsCount}
+//       />
 
-//         {/* ② Topbar */}
-//         <TopBarOne
-//           pageTitle={PAGE_TITLES[activePage] || 'Dashboard'}
-//           onRefresh={refresh}
-//           loading={loading}
-//           lastRefresh={lastRefresh ? new Date(lastRefresh) : null}
-//           sidebarW={sidebarW}
-//           user={user}
-//           onLogout={logout}
-//         />
+//       {/* ② Topbar */}
+//       <TopBarOne
+//         pageTitle={PAGE_TITLES[activePage] || 'Dashboard'}
+//         onRefresh={refresh}
+//         loading={loading}
+//         lastRefresh={lastRefresh ? new Date(lastRefresh) : null}
+//         sidebarW={sidebarW}
+//         user={user}
+//         onLogout={logout}
+//       />
 
-//         {/* ③ Flow selector + Date range bar */}
-//         <div
-//           className="fixed top-16 right-0 z-20 flex items-center justify-between px-4 py-2 bg-white border-b border-[#EEEBE6]"
-//           style={{
-//             left: sidebarW,
-//             transition: 'left 0.28s cubic-bezier(0.4,0,0.2,1)',
-//             boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
-//           }}
-//         >
-//           <FlowSelector />
-//           <DateRangePicker
-//             dateRange={dateRange}
-//             setDateRange={setDateRange}
-//             customStart={customStart}
-//             setCustomStart={setCustomStart}
-//             customEnd={customEnd}
-//             setCustomEnd={setCustomEnd}
-//           />
-//         </div>
-
-//         {/* ④ Main content */}
-//         <main
-//           className="pt-28 min-h-screen"
-//           style={{
-//             marginLeft: sidebarW,
-//             transition: 'margin-left 0.25s cubic-bezier(0.4,0,0.2,1)',
-//           }}
-//         >
-//           <div className="p-4 max-w-[1600px]">
-//             <PageRouter />
-//           </div>
-//         </main>
-
+//       {/* ③ Flow selector + Date range — GLOBAL, har page pe asar */}
+//       <div
+//         className="fixed top-16 right-0 z-20 flex items-center justify-between px-4 py-2 bg-white border-b border-[#EEEBE6]"
+//         style={{
+//           left: sidebarW,
+//           transition: 'left 0.28s cubic-bezier(0.4,0,0.2,1)',
+//           boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
+//         }}
+//       >
+//         <FlowSelector />
+//         <DateRangePicker />
 //       </div>
-//     </DateRangeContext.Provider>
+
+//       {/* ④ Main content */}
+//       <main
+//         className="pt-28 min-h-screen"
+//         style={{
+//           marginLeft: sidebarW,
+//           transition: 'margin-left 0.25s cubic-bezier(0.4,0,0.2,1)',
+//         }}
+//       >
+//         <div className="p-4 max-w-[1600px]">
+//           <PageRouter activePage={activePage} />
+//         </div>
+//       </main>
+
+//     </div>
 //   )
 // }
 
 // export default function App() {
-//   return (
-//     <Provider store={store}>
-//       <Dashboard />
-//     </Provider>
-//   )
+//   return <Dashboard />
 // }
-
 
 
 import React, { useEffect, useCallback } from 'react'
@@ -431,12 +255,14 @@ import OverviewPage      from './pages/OverviewPage'
 import ConversationsPage from './pages/ConversationsPage'
 import LeadsPage         from './pages/LeadsPage'
 import LogsPage          from './pages/LogsPage'
+import DobRevisionsPage  from './pages/DobRevisionsPage'
 
 const PAGE_TITLES = {
   overview:      'Dashboard Overview',
   conversations: 'Conversations',
   leads:         'Leads & Follow-ups',
   logs:          'Production Logs',
+  dobRevisions:  'DOB / Date Revisions',
   analytics:     'Analytics',
   campaigns:     'Campaign Manager',
   customers:     'Customers',
@@ -444,6 +270,11 @@ const PAGE_TITLES = {
   settings:      'Settings',
   help:          'Help & Support',
 }
+
+// ── Pages jinke liye GLOBAL Flow selector + Date range bar 
+//    HIDE honi chahiye (kyunki unka apna local filter/state hai,
+//    ya unko flow/date filter ki zarurat hi nahi) ────────────────
+const PAGES_WITHOUT_GLOBAL_FILTERS = ['dobRevisions']
 
 function ComingSoon({ label }) {
   return (
@@ -463,6 +294,7 @@ function PageRouter({ activePage }) {
     case 'conversations': return <ConversationsPage />
     case 'leads':         return <LeadsPage />
     case 'logs':          return <LogsPage />
+    case 'dobRevisions':  return <DobRevisionsPage />
     case 'analytics':     return <ComingSoon label="Analytics" />
     case 'campaigns':     return <ComingSoon label="Campaign Manager" />
     case 'customers':     return <ComingSoon label="Customers" />
@@ -562,6 +394,9 @@ function Dashboard() {
 
   const sidebarW = sidebarCollapsed ? '68px' : '240px'
 
+  // ── Kya is page pe global filter bar dikhani hai? ───────────────
+  const showGlobalFilters = !PAGES_WITHOUT_GLOBAL_FILTERS.includes(activePage)
+
   const refresh = useCallback(() => {
     console.log('%c[App] Manual refresh clicked', 'color:#378ADD;font-weight:bold')
     loadDashboard(activeFlow, { dateRange, customStart, customEnd })
@@ -579,14 +414,7 @@ function Dashboard() {
     loadDashboard(activeFlow, { dateRange, customStart, customEnd })
   }, [activeFlow]) // eslint-disable-line
 
-  // ── Auto refresh every 30s — silent, loader nahi dikhega dobara ─
-  // useEffect(() => {
-  //   const id = setInterval(() => {
-  //     console.log('%c[App] Auto-refresh (30s) →', 'color:#9B9590', activeFlow)
-  //     loadDashboard(activeFlow, { dateRange, customStart, customEnd })
-  //   }, 30_000)
-  //   return () => clearInterval(id)
-  // }, [activeFlow, dateRange, customStart, customEnd, loadDashboard])
+
 
   const conversationsCount = sessions.length
   const leadsCount         = leads.length
@@ -628,21 +456,28 @@ function Dashboard() {
       />
 
       {/* ③ Flow selector + Date range — GLOBAL, har page pe asar */}
-      <div
-        className="fixed top-16 right-0 z-20 flex items-center justify-between px-4 py-2 bg-white border-b border-[#EEEBE6]"
-        style={{
-          left: sidebarW,
-          transition: 'left 0.28s cubic-bezier(0.4,0,0.2,1)',
-          boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
-        }}
-      >
-        <FlowSelector />
-        <DateRangePicker />
-      </div>
+      {/*    SIRF un pages pe dikhti hai jo PAGES_WITHOUT_GLOBAL_FILTERS  */}
+      {/*    mein nahi hain (jaise DOB Revisions — uska apna local       */}
+      {/*    date-range hai, global wala wahan irrelevant hai)           */}
+      {showGlobalFilters && (
+        <div
+          className="fixed top-16 right-0 z-20 flex items-center justify-between px-4 py-2 bg-white border-b border-[#EEEBE6]"
+          style={{
+            left: sidebarW,
+            transition: 'left 0.28s cubic-bezier(0.4,0,0.2,1)',
+            boxShadow: '0 1px 4px rgba(0,0,0,0.04)',
+          }}
+        >
+          <FlowSelector />
+          <DateRangePicker />
+        </div>
+      )}
 
       {/* ④ Main content */}
+      {/*    pt-28 sirf jab global filter bar dikh rahi ho (uske liye   */}
+      {/*    space chahiye) — warna sirf topbar jitni jagah (pt-16)    */}
       <main
-        className="pt-28 min-h-screen"
+        className={showGlobalFilters ? 'pt-28 min-h-screen' : 'pt-16 min-h-screen'}
         style={{
           marginLeft: sidebarW,
           transition: 'margin-left 0.25s cubic-bezier(0.4,0,0.2,1)',
