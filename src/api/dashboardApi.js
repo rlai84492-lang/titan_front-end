@@ -102,6 +102,10 @@ export const fetchDashboard = async (flow = 'bday_t10', dateOpts = {}) => {
   return authFetch(`/api/dashboard?${params}`)
 }
 
+
+
+
+
 /**
  * Lightweight sidebar counts — fast, cached 30s.
  * Call this separately from the main dashboard to avoid blocking the UI.
@@ -194,40 +198,40 @@ export async function fetchSessionsByFlow(flow) {
  *
  * Returns: { leads[], totalLeads, totalPages, currentPage, pageSize }
  */
-export async function fetchLeads(
-  page        = 0,
-  size        = 100,
-  flow        = null,
-  dateRange   = 'today',
-  customStart = '',
-  customEnd   = ''
-) {
-  const params = new URLSearchParams({
-    page,
-    size: Math.min(size, 200),
-    range: dateRange,
-  })
+// export async function fetchLeads(
+//   page        = 0,
+//   size        = 100,
+//   flow        = null,
+//   dateRange   = 'today',
+//   customStart = '',
+//   customEnd   = ''
+// ) {
+//   const params = new URLSearchParams({
+//     page,
+//     size: Math.min(size, 200),
+//     range: dateRange,
+//   })
 
-  if (flow && flow !== 'all') params.append('flow', flow)
-  if (dateRange === 'custom' && customStart && customEnd) {
-    params.append('startDate', customStart)
-    params.append('endDate',   customEnd)
-  }
+//   if (flow && flow !== 'all') params.append('flow', flow)
+//   if (dateRange === 'custom' && customStart && customEnd) {
+//     params.append('startDate', customStart)
+//     params.append('endDate',   customEnd)
+//   }
 
-  const data = await authFetch(`/api/leads?${params}`)
+//   const data = await authFetch(`/api/leads?${params}`)
 
-  // Normalise: backend always returns { leads, totalLeads, totalPages, currentPage, pageSize }
-  if (Array.isArray(data)) {
-    return { leads: data, totalLeads: data.length, totalPages: 1, currentPage: 0, pageSize: size }
-  }
-  return {
-    leads:       Array.isArray(data.leads) ? data.leads : [],
-    totalLeads:  data.totalLeads  ?? 0,
-    totalPages:  data.totalPages  ?? 1,
-    currentPage: data.currentPage ?? page,
-    pageSize:    data.pageSize    ?? size,
-  }
-}
+//   // Normalise: backend always returns { leads, totalLeads, totalPages, currentPage, pageSize }
+//   if (Array.isArray(data)) {
+//     return { leads: data, totalLeads: data.length, totalPages: 1, currentPage: 0, pageSize: size }
+//   }
+//   return {
+//     leads:       Array.isArray(data.leads) ? data.leads : [],
+//     totalLeads:  data.totalLeads  ?? 0,
+//     totalPages:  data.totalPages  ?? 1,
+//     currentPage: data.currentPage ?? page,
+//     pageSize:    data.pageSize    ?? size,
+//   }
+// }
 
 
 // export async function fetchDobRevisions() {
@@ -235,6 +239,29 @@ export async function fetchLeads(
 // }
 
 
+// ════════════════════════════════════════════════════════════
+// dashboardApi.js mein fetchLeads() function ko REPLACE karo
+// (range, customStart, customEnd params add kiye gaye hain)
+// ════════════════════════════════════════════════════════════
+
+export async function fetchLeads(
+  page = 0,
+  size = 100,
+  flow = null,
+  range = 'today',
+  customStart = null,
+  customEnd = null
+) {
+  const params = new URLSearchParams({ page, size })
+  if (flow && flow !== 'all') params.append('flow', flow)
+  if (range) params.append('range', range)
+  if (range === 'custom' && customStart && customEnd) {
+    params.append('startDate', customStart)
+    params.append('endDate', customEnd)
+  }
+  const data = await authFetch(`/api/leads?${params}`)
+  return data  // { leads, totalLeads, totalPages, currentPage, pageSize, leadMetrics }
+}
 
 
 export async function fetchDobRevisions(range = 'today', startDate = null, endDate = null) {

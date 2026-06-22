@@ -83,7 +83,11 @@ function PremiumLoader({ activeFlow }) {
 
 // ── Main Overview ─────────────────────────────────────────────
 export default function OverviewPage() {
-  const { sessions, leads, metrics, hourly, campData, collData, timeline, loading } = useDashboard()
+  const { sessions, leads, metrics, hourly, campData, collData, timeline, loading,stepCounts  } = useDashboard()
+
+  console.log('stepCounts:', stepCounts)
+console.log('sessions length:', sessions.length)
+
 
   console.log(metrics  , "fdxgcvh")
   const { activeFlow } = useUI()
@@ -115,7 +119,7 @@ confirmed: sessions.filter(s =>
     <div className="space-y-5">
 
       {/* ── 8 Campaign Metric Tiles ─── */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-5 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-6 gap-3">
         {[
           { label: 'Message Sent',        value: metrics.messagesSent,               accent: 'blue',   icon: '📤' },
           { label: 'Delivery Rate',         value: `${metrics.deliveryRate  ?? 0}%`,  accent: 'green',  icon: '📬' },
@@ -123,40 +127,23 @@ confirmed: sessions.filter(s =>
           { label: 'Click Rate',            value: `${metrics.clickRate     ?? 0}%`,  accent: 'purple', icon: '👆' },
           // { label: 'Callback Requests',     value: metrics.callbackRequests,           accent: 'orange', icon: '📞' },
           // { label: 'Store Visit Requests',  value: metrics.storeVisitRequests,         accent: 'pink',   icon: '🏪' },
-          // { label: 'Conversion Rate',       value: metrics.conversionRate,             accent: 'indigo', icon: '📋' },
+          { label: 'Conversion Rate',       value: `${metrics.conversionRate}%`,             accent: 'indigo', icon: '📋' },
           { label: 'Completion Rate',       value: `${metrics.completedFlows ?? 0}%`, accent: 'amber',  icon: '✅' },
         ].map((m, i) => <MetricCardOne key={m.label} {...m} delay={i * 40} />)}
       </div>
 
-      {/* ── 8 Conversation Metric Tiles ─── */}
-      {/* <div>
-        <h2 className="font-sora font-semibold text-[11px] text-[#A49D94] uppercase tracking-widest mb-3">
-          Conversation Metrics
-        </h2>
-        <div className="grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-8 gap-3">
-          {[
-            // { label: 'Active Sessions',                                        value: conv.activeSessions,           color: '#378ADD', bg: '#EBF4FD' },
-            { label: isBday ? 'Birthday Confirmed' : 'Anniversary Confirmed',  value: conv.confirmed,                color: '#E85A2B', bg: '#FEF0EB' },
-            { label: 'Entered Discovery',                                       value: conv.enteredDiscovery,         color: '#7F77DD', bg: '#EEEDFE' },
-            // { label: "Men's / Women's",                                         value: `${conv.mens}/${conv.womens}`, color: '#D4537E', bg: '#FCEEF4' },
-            { label: 'Carousel Reached',                                        value: conv.carouselReached,          color: '#1D9E75', bg: '#E1F5EE' },
-            { label: 'Catalogue Sent',                                          value: conv.catalogueSent,            color: '#0F6E56', bg: '#E0F2F1' },
-            { label: isBday ? 'Birthday Offer' : 'Anniv Offer',                value: conv.offerTapped,              color: '#E09A1A', bg: '#FEF3CD' },
-            { label: 'Re-engagement',                                           value: conv.reengagement,             color: '#A49D94', bg: '#F5F3F0' },
-          ].map(c => (
-            <div key={c.label} className="rounded-xl p-3 border" style={{ background: c.bg, borderColor: c.color + '22' }}>
-              <div className="font-sora font-extrabold text-xl" style={{ color: c.color }}>{c.value}</div>
-              <div className="text-[9px] font-semibold mt-1 leading-tight" style={{ color: c.color, opacity: 0.8 }}>{c.label}</div>
-            </div>
-          ))}
-        </div>
-      </div> */}
+    
 
       {/* ── Funnel + Activity ─── */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         <CardOne title="Bot Flow Drop-off" subtitle="Users at each step" icon="🔽" delay={100}>
-          <FlowFunnelOne sessions={sessions} />
-        </CardOne>
+<FlowFunnelOne 
+  sessions={sessions} 
+  stepCounts={stepCounts}    // ← NAYA PROP
+  activeFlow={activeFlow}    // ← activeFlow bhi pass karo
+/>
+
+      </CardOne>
         <CardOne title="Activity Feed" subtitle="Real-time events" icon="🕐" delay={150}>
           <ActivityTimelineOne events={timeline} />
         </CardOne>

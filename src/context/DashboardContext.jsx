@@ -14,6 +14,9 @@ export function DashboardProvider({ children }) {
 
   // ── Data ─────────────────────────────────────────────────────────
   const [sessions,      setSessions]      = useState([])
+  // ── State mein add karo (existing states ke saath):
+const [stepCounts, setStepCounts] = useState({})
+  
   const [leads,         setLeads]         = useState([])
   const [totalSessions, setTotalSessions] = useState(0)   // real DB count
   const [totalLeads,    setTotalLeads]    = useState(0)   // real DB count
@@ -90,14 +93,22 @@ export function DashboardProvider({ children }) {
         dateRange: range, customStart: start, customEnd: end,
       })
 
+      console.log('data.stepCounts from API:', data.stepCounts)
+console.log('all keys in data:', Object.keys(data))
+
+
       if (!mountedRef.current) return   // unmounted while request was in flight
 
       setSessions(Array.isArray(data.sessions) ? data.sessions : [])
       setLeads(Array.isArray(data.leads)       ? data.leads    : [])
 
+      
+
       // totalSessions / totalLeads from server COUNT queries — real DB numbers
       setTotalSessions(data.totalSessions ?? data.sessions?.length ?? 0)
       setTotalLeads(data.totalLeads       ?? data.leads?.length    ?? 0)
+
+      setStepCounts(data.stepCounts || {})
 
       setMetrics(data.metrics  ?? {})
       setHourly(data.hourly    ?? { labels: [], inbound: [], outbound: [] })
@@ -155,7 +166,7 @@ useEffect(() => {
       // Data
       sessions, leads,
       totalSessions, totalLeads,
-      metrics, hourly, collData, timeline,
+      metrics, hourly, collData, timeline,  stepCounts,
 
       // Status
       loading, error, lastRefresh,
