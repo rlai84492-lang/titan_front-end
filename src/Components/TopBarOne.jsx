@@ -128,7 +128,7 @@ export default function Topbar({
       </button>
 
       <div className="relative">
-        <button
+        {/* <button
           onClick={() => {
             setShowNotif((n) => !n)
             setShowProfile(false)
@@ -141,7 +141,7 @@ export default function Topbar({
             className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full border-2 border-white"
             style={{ background: '#E85A2B' }}
           />
-        </button>
+        </button> */}
 
         {showNotif && (
           <div
