@@ -231,9 +231,9 @@ export default function Topbar({
               {USER.name}
             </div>
 
-            <div className="text-[10px] text-[#B0A9A1] font-medium">
+            {/* <div className="text-[10px] text-[#B0A9A1] font-medium">
               {USER.role}
-            </div>
+            </div> */}
           </div>
 
           <ChevronDown
