@@ -294,7 +294,7 @@ export const STEP_META = {
   ANNIVERSARY_T10_GENDER_SELECTION_SENT:      { label: 'Gift Select',     color: '#D4537E', bg: '#FCEEF4' },
   ANNIVERSARY_T10_MEN_BRAND_CAROUSEL_SENT:    { label: "Men's Carousel",  color: '#1D9E75', bg: '#E1F5EE' },
   ANNIVERSARY_T10_WOMEN_BRAND_CAROUSEL_SENT:  { label: "Women's Carousel",color: '#0F6E56', bg: '#E0F2F1' },
-  ANNIVERSARY_T10_COUPLE_CATALOGUE_SENT:      { label: 'Couple Watches',  color: '#7F77DD', bg: '#EEEDFE' },
+  // ANNIVERSARY_T10_COUPLE_CATALOGUE_SENT:      { label: 'Couple Watches',  color: '#7F77DD', bg: '#EEEDFE' },
   ANNIVERSARY_T10_CATALOGUE_SENT:             { label: 'Catalogue',       color: '#378ADD', bg: '#EBF4FD' },
   // ANNIVERSARY_T10_CATALOGUE_FOLLOW_UP_SENT:   { label: 'Catalogue F/U',   color: '#5B9BD5', bg: '#DBEAFE' }, // ★ FIX: added
   ANNIVERSARY_T10_OFFER_SENT:                 { label: 'Anniv Offer',     color: '#E85A2B', bg: '#FEF0EB' },
@@ -308,7 +308,7 @@ export const STEP_META = {
   ANNIVERSARY_TDAY_GENDER_SELECTION_SENT:         { label: 'Gift Select',   color: '#D4537E', bg: '#FCEEF4' },
   ANNIVERSARY_TDAY_MEN_BRAND_CAROUSEL_SENT:       { label: "Men's Carousel",color: '#1D9E75', bg: '#E1F5EE' },
   ANNIVERSARY_TDAY_WOMEN_BRAND_CAROUSEL_SENT:     { label: "Women's Carousel",color:'#0F6E56', bg: '#E0F2F1' },
-  ANNIVERSARY_TDAY_COUPLE_CATALOGUE_SENT:         { label: 'Couple Watches',color: '#7F77DD', bg: '#EEEDFE' },
+  ANNIVERSARY_TDAY_COUPLE_CATALOGUE_SENT:         { label: 'Catalogue',color: '#7F77DD', bg: '#EEEDFE' },
   ANNIVERSARY_TDAY_OFFER_SENT:                    { label: 'Anniv Offer',   color: '#E85A2B', bg: '#FEF0EB' },
   ANNIVERSARY_TDAY_COLLECTION_STORE_VISIT_SENT:   { label: 'Store Visit',   color: '#1D9E75', bg: '#E1F5EE' },
   // ANNIVERSARY_TDAY_COLLECTION_CALLBACK_CONFIRMED: { label: 'Callback Done', color: '#1D9E75', bg: '#E1F5EE' },
