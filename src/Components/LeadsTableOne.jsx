@@ -114,7 +114,7 @@ export default function LeadsTableOne({ leads = [] }) {
   return (
     <div>
       {/* 3 Summary Cards */}
-      <div className="grid grid-cols-3 gap-3 mb-4">
+      {/* <div className="grid grid-cols-3 gap-3 mb-4">
         {[
           { label: 'Total Leads', value: totalLeads,  color: '#E85A2B', bg: '#FEF0EB' },
           { label: 'Callback',    value: callbacks,   color: '#378ADD', bg: '#EBF4FD' },
@@ -125,7 +125,7 @@ export default function LeadsTableOne({ leads = [] }) {
             <div style={{ fontSize: 10, color: c.color, opacity: 0.8, fontWeight: 600, marginTop: 2 }}>{c.label}</div>
           </div>
         ))}
-      </div>
+      </div> */}
 
       {/* Controls */}
       <div className="flex flex-wrap items-center justify-between gap-3 mb-4">

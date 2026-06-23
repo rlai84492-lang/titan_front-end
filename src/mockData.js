@@ -213,7 +213,7 @@ export const FLOW_STEPS = {
     // 'BIRTHDAY_T10_CATALOGUE_FOLLOW_UP_SENT',  // ★ FIX: added
     'BIRTHDAY_T10_OFFER_SENT',
     'BIRTHDAY_T10_STORE_VISIT_SENT',
-    'BIRTHDAY_T10_CALLBACK_CONFIRMED',
+    // 'BIRTHDAY_T10_CALLBACK_CONFIRMED',
   ],
   bday_t0: [
     'BIRTHDAY_TDAY_TEMPLATE_SENT',
@@ -223,8 +223,8 @@ export const FLOW_STEPS = {
     'BIRTHDAY_TDAY_WOMEN_BRAND_CAROUSEL_SENT',
     'BIRTHDAY_TDAY_OFFER_SENT',
     'BIRTHDAY_TDAY_T10_STORE_VISIT_SENT',
-    'BIRTHDAY_TDAY_T10_CALLBACK_CONFIRMED',
-    'BIRTHDAY_TDAY_FLOW_COMPLETED',
+    // 'BIRTHDAY_TDAY_T10_CALLBACK_CONFIRMED',
+    // 'BIRTHDAY_TDAY_FLOW_COMPLETED',
   ],
   anniv_t10: [
     'ANNIVERSARY_T10_CONFIRMATION_SENT',
@@ -236,10 +236,10 @@ export const FLOW_STEPS = {
     'ANNIVERSARY_T10_WOMEN_BRAND_CAROUSEL_SENT',
     'ANNIVERSARY_T10_COUPLE_CATALOGUE_SENT',
     'ANNIVERSARY_T10_CATALOGUE_SENT',
-    'ANNIVERSARY_T10_CATALOGUE_FOLLOW_UP_SENT',  // ★ FIX: added
+    // 'ANNIVERSARY_T10_CATALOGUE_FOLLOW_UP_SENT',  // ★ FIX: added
     'ANNIVERSARY_T10_OFFER_SENT',
     'ANNIVERSARY_T10_STORE_VISIT_SENT',
-    'ANNIVERSARY_T10_CALLBACK_CONFIRMED',
+    // 'ANNIVERSARY_T10_CALLBACK_CONFIRMED',
   ],
   anniv_t0: [
     'ANNIVERSARY_TDAY_TEMPLATE_SENT',
@@ -250,8 +250,8 @@ export const FLOW_STEPS = {
     'ANNIVERSARY_TDAY_COUPLE_CATALOGUE_SENT',
     'ANNIVERSARY_TDAY_OFFER_SENT',
     'ANNIVERSARY_TDAY_COLLECTION_STORE_VISIT_SENT',
-    'ANNIVERSARY_TDAY_COLLECTION_CALLBACK_CONFIRMED',
-    'ANNIVERSARY_TDAY_FLOW_COMPLETED',
+    // 'ANNIVERSARY_TDAY_COLLECTION_CALLBACK_CONFIRMED',
+    // 'ANNIVERSARY_TDAY_FLOW_COMPLETED',
   ],
 }
 
@@ -268,7 +268,7 @@ export const STEP_META = {
   // BIRTHDAY_T10_CATALOGUE_FOLLOW_UP_SENT:    { label: 'Catalogue F/U',    color: '#5B9BD5', bg: '#DBEAFE' }, // ★ FIX: added
   BIRTHDAY_T10_OFFER_SENT:                  { label: 'Birthday Offer',   color: '#E85A2B', bg: '#FEF0EB' },
   BIRTHDAY_T10_STORE_VISIT_SENT:            { label: 'Store Visit',      color: '#1D9E75', bg: '#E1F5EE' },
-  BIRTHDAY_T10_CALLBACK_CONFIRMED:          { label: 'Callback Done',    color: '#1D9E75', bg: '#E1F5EE' },
+  // BIRTHDAY_T10_CALLBACK_CONFIRMED:          { label: 'Callback Done',    color: '#1D9E75', bg: '#E1F5EE' },
   BIRTHDAY_T10_GRACEFUL_EXIT:               { label: 'Graceful Exit',    color: '#A49D94', bg: '#F5F3F0' }, // ★ FIX: added
 
   // ── Birthday T-Day ────────────────────────────────────────────
@@ -279,27 +279,27 @@ export const STEP_META = {
   BIRTHDAY_TDAY_WOMEN_BRAND_CAROUSEL_SENT:  { label: "Women's Carousel", color: '#0F6E56', bg: '#E0F2F1' },
   BIRTHDAY_TDAY_OFFER_SENT:                 { label: 'Birthday Offer',   color: '#E85A2B', bg: '#FEF0EB' },
   BIRTHDAY_TDAY_T10_STORE_VISIT_SENT:       { label: 'Store Visit',      color: '#1D9E75', bg: '#E1F5EE' },
-  BIRTHDAY_TDAY_T10_CALLBACK_CONFIRMED:     { label: 'Callback Done',    color: '#1D9E75', bg: '#E1F5EE' },
-  BIRTHDAY_TDAY_FLOW_COMPLETED:             { label: 'Completed',        color: '#1D9E75', bg: '#E1F5EE' },
-  BIRTHDAY_TDAY_CATALOGUE_SENT:             { label: 'Catalogue',        color: '#378ADD', bg: '#EBF4FD' },
-  BIRTHDAY_TDAY_CATALOGUE_FOLLOW_UP_SENT:   { label: 'Catalogue F/U',    color: '#5B9BD5', bg: '#DBEAFE' },
+  // BIRTHDAY_TDAY_T10_CALLBACK_CONFIRMED:     { label: 'Callback Done',    color: '#1D9E75', bg: '#E1F5EE' },
+  // BIRTHDAY_TDAY_FLOW_COMPLETED:             { label: 'Completed',        color: '#1D9E75', bg: '#E1F5EE' },
+  // BIRTHDAY_TDAY_CATALOGUE_SENT:             { label: 'Catalogue',        color: '#378ADD', bg: '#EBF4FD' },
+  // BIRTHDAY_TDAY_CATALOGUE_FOLLOW_UP_SENT:   { label: 'Catalogue F/U',    color: '#5B9BD5', bg: '#DBEAFE' },
   BIRTHDAY_TDAY_COLLECTION_STORE_VISIT_SENT:{ label: 'Store Visit',      color: '#1D9E75', bg: '#E1F5EE' },
-  BIRTHDAY_TDAY_COLLECTION_CALLBACK_CONFIRMED:{ label: 'Callback Done',  color: '#1D9E75', bg: '#E1F5EE' },
+  // BIRTHDAY_TDAY_COLLECTION_CALLBACK_CONFIRMED:{ label: 'Callback Done',  color: '#1D9E75', bg: '#E1F5EE' },
 
   // ── Anniversary T-10 ─────────────────────────────────────────
   ANNIVERSARY_T10_CONFIRMATION_SENT:          { label: 'Month Confirm',   color: '#378ADD', bg: '#EBF4FD' },
   ANNIVERSARY_T10_DATE_CORRECTION_PENDING:    { label: 'Date Pending',    color: '#E09A1A', bg: '#FEF3CD' },
-  ANNIVERSARY_T10_BRIDGE_SENT:                { label: 'Bridge',          color: '#7F77DD', bg: '#EEEDFE' },
+  ANNIVERSARY_T10_BRIDGE_SENT:                { label: 'Capture Month Req',          color: '#7F77DD', bg: '#EEEDFE' },
   ANNIVERSARY_T10_OPENER_SENT:                { label: 'Opener',          color: '#E85A2B', bg: '#FEF0EB' },
   ANNIVERSARY_T10_GENDER_SELECTION_SENT:      { label: 'Gift Select',     color: '#D4537E', bg: '#FCEEF4' },
   ANNIVERSARY_T10_MEN_BRAND_CAROUSEL_SENT:    { label: "Men's Carousel",  color: '#1D9E75', bg: '#E1F5EE' },
   ANNIVERSARY_T10_WOMEN_BRAND_CAROUSEL_SENT:  { label: "Women's Carousel",color: '#0F6E56', bg: '#E0F2F1' },
   ANNIVERSARY_T10_COUPLE_CATALOGUE_SENT:      { label: 'Couple Watches',  color: '#7F77DD', bg: '#EEEDFE' },
   ANNIVERSARY_T10_CATALOGUE_SENT:             { label: 'Catalogue',       color: '#378ADD', bg: '#EBF4FD' },
-  ANNIVERSARY_T10_CATALOGUE_FOLLOW_UP_SENT:   { label: 'Catalogue F/U',   color: '#5B9BD5', bg: '#DBEAFE' }, // ★ FIX: added
+  // ANNIVERSARY_T10_CATALOGUE_FOLLOW_UP_SENT:   { label: 'Catalogue F/U',   color: '#5B9BD5', bg: '#DBEAFE' }, // ★ FIX: added
   ANNIVERSARY_T10_OFFER_SENT:                 { label: 'Anniv Offer',     color: '#E85A2B', bg: '#FEF0EB' },
   ANNIVERSARY_T10_STORE_VISIT_SENT:           { label: 'Store Visit',     color: '#1D9E75', bg: '#E1F5EE' },
-  ANNIVERSARY_T10_CALLBACK_CONFIRMED:         { label: 'Callback Done',   color: '#1D9E75', bg: '#E1F5EE' },
+  // ANNIVERSARY_T10_CALLBACK_CONFIRMED:         { label: 'Callback Done',   color: '#1D9E75', bg: '#E1F5EE' },
   ANNIVERSARY_T10_GRACEFUL_EXIT:              { label: 'Graceful Exit',   color: '#A49D94', bg: '#F5F3F0' }, // ★ FIX: added
 
   // ── Anniversary T-Day ────────────────────────────────────────
@@ -311,8 +311,8 @@ export const STEP_META = {
   ANNIVERSARY_TDAY_COUPLE_CATALOGUE_SENT:         { label: 'Couple Watches',color: '#7F77DD', bg: '#EEEDFE' },
   ANNIVERSARY_TDAY_OFFER_SENT:                    { label: 'Anniv Offer',   color: '#E85A2B', bg: '#FEF0EB' },
   ANNIVERSARY_TDAY_COLLECTION_STORE_VISIT_SENT:   { label: 'Store Visit',   color: '#1D9E75', bg: '#E1F5EE' },
-  ANNIVERSARY_TDAY_COLLECTION_CALLBACK_CONFIRMED: { label: 'Callback Done', color: '#1D9E75', bg: '#E1F5EE' },
-  ANNIVERSARY_TDAY_FLOW_COMPLETED:                { label: 'Completed',     color: '#1D9E75', bg: '#E1F5EE' },
+  // ANNIVERSARY_TDAY_COLLECTION_CALLBACK_CONFIRMED: { label: 'Callback Done', color: '#1D9E75', bg: '#E1F5EE' },
+  // ANNIVERSARY_TDAY_FLOW_COMPLETED:                { label: 'Completed',     color: '#1D9E75', bg: '#E1F5EE' },
 }
 
 export const BRANDS = [

@@ -378,11 +378,11 @@ export default function LeadsPage() {
 
   const metrics = [
     { label: 'Total Leads',         value: totalLeads,  accent: 'blue',   icon: '🎯' },
-    { label: 'New Today (pg)',       value: newToday,    accent: 'orange', icon: '🆕' },
+    { label: 'New Today ',       value: newToday,    accent: 'orange', icon: '🆕' },
     { label: 'Callback – Discovery', value: cbDiscovery, accent: 'purple', icon: '📞' },
     { label: 'Store Visits',         value: storeVisits, accent: 'green',  icon: '🏪' },
-    { label: 'New Leads (pg)',        value: newLeads,    accent: 'indigo', icon: '🔵' },
-    { label: 'Total Callbacks (pg)', value: callbacks,   accent: 'teal',   icon: '📲' },
+    // { label: 'New Leads (pg)',        value: newLeads,    accent: 'indigo', icon: '🔵' },
+    // { label: 'Total Callbacks (pg)', value: callbacks,   accent: 'teal',   icon: '📲' },
   ]
 
   if (pageLoading && leads.length === 0) {
@@ -408,7 +408,7 @@ export default function LeadsPage() {
       </div>
 
       {/* Metric Tiles */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-6 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-4 gap-3">
         {metrics.map((m, i) => (
           <MetricCardOne key={m.label} {...m} delay={i * 40} />
         ))}
