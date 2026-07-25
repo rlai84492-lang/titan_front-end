@@ -85,6 +85,8 @@ function PremiumLoader({ activeFlow }) {
 export default function OverviewPage() {
   const { sessions, leads, metrics, hourly, campData, collData, timeline, loading,stepCounts  } = useDashboard()
 
+  console.log(metrics, "fdxgcvh")
+
   console.log('stepCounts:', stepCounts)
 console.log('sessions length:', sessions.length)
 
@@ -128,7 +130,7 @@ confirmed: sessions.filter(s =>
           // { label: 'Callback Requests',     value: metrics.callbackRequests,           accent: 'orange', icon: '📞' },
           // { label: 'Store Visit Requests',  value: metrics.storeVisitRequests,         accent: 'pink',   icon: '🏪' },
           { label: 'Conversion Rate',       value: `${metrics.conversionRate}%`,             accent: 'indigo', icon: '📋' },
-          { label: 'Completion Rate',       value: `${metrics.completedFlows ?? 0}%`, accent: 'amber',  icon: '✅' },
+          { label: 'Completion Rate',       value: `${metrics.completionRate ?? 0}%`, accent: 'amber',  icon: '✅' },
         ].map((m, i) => <MetricCardOne key={m.label} {...m} delay={i * 40} />)}
       </div>
 
@@ -136,11 +138,19 @@ confirmed: sessions.filter(s =>
 
       {/* ── Funnel + Activity ─── */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        <CardOne title="Bot Flow Drop-off" subtitle="Users at each step" icon="🔽" delay={100}>
-<FlowFunnelOne 
+        <CardOne title="Bot Flow Drop-off" subtitle="Active users' journey (selected period)" icon="🔽" delay={100}>
+{/* <FlowFunnelOne 
   sessions={sessions} 
   stepCounts={stepCounts}    // ← NAYA PROP
   activeFlow={activeFlow}    // ← activeFlow bhi pass karo
+/> */}
+
+
+<FlowFunnelOne
+  activeFlow={activeFlow}
+  stepCounts={stepCounts}
+  sessions={sessions}
+  reachedCount={metrics?.deliveredCount || 0}
 />
 
       </CardOne>
