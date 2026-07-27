@@ -121,14 +121,15 @@ confirmed: sessions.filter(s =>
     <div className="space-y-5">
 
       {/* ── 8 Campaign Metric Tiles ─── */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-6 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-4 xl:grid-cols-6  gap-3">
         {[
           { label: 'Message Sent',        value: metrics.messagesSent,               accent: 'blue',   icon: '📤' },
+          // { label: 'Campaign Reached',        value: metrics.deliveredCount,               accent: 'blue',   icon: '📤' },
+
           { label: 'Delivery Rate',         value: `${metrics.deliveryRate  ?? 0}%`,  accent: 'green',  icon: '📬' },
           { label: 'Open Rate',             value: `${metrics.openRate      ?? 0}%`,  accent: 'teal',   icon: '📖' },
           { label: 'Click Rate',            value: `${metrics.clickRate     ?? 0}%`,  accent: 'purple', icon: '👆' },
-          // { label: 'Callback Requests',     value: metrics.callbackRequests,           accent: 'orange', icon: '📞' },
-          // { label: 'Store Visit Requests',  value: metrics.storeVisitRequests,         accent: 'pink',   icon: '🏪' },
+      
           { label: 'Conversion Rate',       value: `${metrics.conversionRate}%`,             accent: 'indigo', icon: '📋' },
           { label: 'Completion Rate',       value: `${metrics.completionRate ?? 0}%`, accent: 'amber',  icon: '✅' },
         ].map((m, i) => <MetricCardOne key={m.label} {...m} delay={i * 40} />)}
