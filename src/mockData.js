@@ -30,7 +30,7 @@ export const FLOW_COLORS = {
 
 export const FLOW_STEPS = {
   bday_t10: [
-    'BIRTHDAY_T10_CONFIRMATION_SENT',          // 26,648
+    // 'BIRTHDAY_T10_CONFIRMATION_SENT',          // 26,648
     'BIRTHDAY_T10_DOB_CORRECTION_PENDING',     //    227
     'BIRTHDAY_T10_BRIDGE_SENT',                //     43
     'BIRTHDAY_T10_OPENER_SENT',                //  1,400
@@ -55,7 +55,7 @@ export const FLOW_STEPS = {
     'BIRTHDAY_TDAY_COLLECTION_CALLBACK_CONFIRMED',    //      54
   ],
   anniv_t10: [
-    'ANNIVERSARY_T10_CONFIRMATION_SENT',         // 37,163
+    // 'ANNIVERSARY_T10_CONFIRMATION_SENT',         // 37,163
     'ANNIVERSARY_T10_DATE_CORRECTION_PENDING',   //    672
     'ANNIVERSARY_T10_BRIDGE_SENT',               //    186
     'ANNIVERSARY_T10_OPENER_SENT',               //  2,620
@@ -82,7 +82,7 @@ export const FLOW_STEPS = {
 
 export const STEP_META = {
   // ── Birthday T-10 ─────────────────────────────────────────────
-  BIRTHDAY_T10_CONFIRMATION_SENT:           { label: 'Month Confirm',    color: '#378ADD', bg: '#EBF4FD' },
+  // BIRTHDAY_T10_CONFIRMATION_SENT:           { label: 'Month Confirm',    color: '#378ADD', bg: '#EBF4FD' },
   BIRTHDAY_T10_DOB_CORRECTION_PENDING:      { label: 'DOB Pending',      color: '#E09A1A', bg: '#FEF3CD' },
   BIRTHDAY_T10_BRIDGE_SENT:                 { label: 'Capture Month Req',color: '#7F77DD', bg: '#EEEDFE' },
   BIRTHDAY_T10_OPENER_SENT:                 { label: 'Opener',           color: '#E85A2B', bg: '#FEF0EB' },
@@ -112,7 +112,7 @@ BIRTHDAY_TDAY_COLLECTION_CALLBACK_CONFIRMED: { label: '📞 Callback Lead', colo
   BIRTHDAY_TDAY_COLLECTION_STORE_VISIT_SENT:{ label: 'Store Visit',      color: '#1D9E75', bg: '#E1F5EE' },
 
   // ── Anniversary T-10 ─────────────────────────────────────────
-  ANNIVERSARY_T10_CONFIRMATION_SENT:          { label: 'Month Confirm',   color: '#378ADD', bg: '#EBF4FD' },
+  // ANNIVERSARY_T10_CONFIRMATION_SENT:          { label: 'Month Confirm',   color: '#378ADD', bg: '#EBF4FD' },
   ANNIVERSARY_T10_DATE_CORRECTION_PENDING:    { label: 'Date Pending',    color: '#E09A1A', bg: '#FEF3CD' },
   ANNIVERSARY_T10_BRIDGE_SENT:                { label: 'Capture Month Req',          color: '#7F77DD', bg: '#EEEDFE' },
   ANNIVERSARY_T10_OPENER_SENT:                { label: 'Opener',          color: '#E85A2B', bg: '#FEF0EB' },
